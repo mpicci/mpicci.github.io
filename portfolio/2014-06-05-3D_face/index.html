@@ -323,7 +323,7 @@ In active stereo setup this procedure is quite hard, since the projector cannot 
 <h1 id="three-phase-structured-light">Three Phase Structured Light</h1>
 <p>When I started to study structured light for 3D active acquisition devices I was literally astonished to find so many parallel, and the same math  I was using a few years before in electrical communication. The same principle used in radar, sonar, and communication, is to transmit information <code class="highlighter-rouge">shape</code> from the source: <code class="highlighter-rouge">object to scan</code> to the receiver, the <code class="highlighter-rouge">camera</code>.<br />
 However, the object per se do not emit any information. What the human eye, or a camera see is the appearance, something that is difficult to describe.
-Philosopher, neuroscientists, and also computer scientist have often discussed about it, and it’s still an hot topic.</p>
+Varphilosopher, neuroscientists, and also computer scientist have often discussed about it, and it’s still an hot topic.</p>
 
 <p>To retrieve the shape <em>information</em> we have to <em>sense</em> the object. The information to acquire is in the form of x,y,z coordinate. Illuminating the subject with a light source, and receiving the distorted light with the camera is an analogous to radar, and sonar systems.
 The difference is the frequency of the electromagnetic radiation used. Hundred, or thousand of MegaHertz in the case of the radar, 100 millions of Mhz for the visible light.<br />
@@ -351,21 +351,21 @@ The main problem with this techniques is that the number of patterns is limited 
 
 <p>A more interesting technique, introduced by <a href="http://www.ifp.uni-stuttgart.de/publications/2001/Videometrics01-Guehring-4309-24.pdf">Guehring et al</a>
 is the phase-shift PS method. The PS method projects a sequence of periodic intensity patterns, each of which is offset by a fraction of its period from the previous one, so that the entire period is covered. As a result, one obtains a so-called relative phase map, which is also of a periodic nature: values readily available from the relative <em>wrapped</em> phase map are said to be wrapped in the range modulo <script type="math/tex">2 \pi</script>.<br />
-The PS method typically assumes a projection of periodic sinusoidal patterns several times, where a periodic sine pattern is shifted between projections. A periodic pattern is actually shifted N   times by an amount of <script type="math/tex">\phi_i</script>, where shifts are equally distributed to cover the entire period:</p>
+The PS method typically assumes a projection of periodic sinusoidal patterns several times, where a periodic sine pattern is shifted between projections. A periodic pattern is actually shifted N   times by an amount of <script type="math/tex">\varphi_i</script>, where shifts are equally distributed to cover the entire period:</p>
 
-<script type="math/tex; mode=display">\phi_i = \frac{2 \pi}{N} \cdot i \qquad i= 0,1,\dots,N-1</script>
+<script type="math/tex; mode=display">\varphi_i = \frac{2 \pi}{N} \cdot i \qquad i= 0,1,\dots,N-1</script>
 
 <p>For a camera image pixel, the detected gray-level intensity, <script type="math/tex">g(x,y)</script> at <script type="math/tex">(x,y)</script> position, obtained as a result of a projected periodic pattern in context and for a shift i can be modeled as:</p>
 
-<script type="math/tex; mode=display">g(x,y) = a(x,y) + b(x,y) \cdot \cos(2 \pi f_0 x + \phi_i(x,y))</script>
+<script type="math/tex; mode=display">g(x,y) = a(x,y) + b(x,y) \cdot \cos(2 \pi f_0 x + \varphi_i(x,y))</script>
 
-<p>where, <script type="math/tex">a(x,y)</script> is the background intensity, <script type="math/tex">b(x,y)</script> is the amplitude modulation of fringes, <script type="math/tex">f_0</script> is the spatial carrier frequency, <script type="math/tex">\phi_i(x,y)</script>is the phase modulation of fringes.</p>
+<p>where, <script type="math/tex">a(x,y)</script> is the background intensity, <script type="math/tex">b(x,y)</script> is the amplitude modulation of fringes, <script type="math/tex">f_0</script> is the spatial carrier frequency, <script type="math/tex">\varphi_i(x,y)</script>is the phase modulation of fringes.</p>
 
 <h2 id="in-electrical-communications">In Electrical Communications</h2>
 <p>The above equation is very common in electrical communications! It’s the basic formulation used in <a href="https://en.wikibooks.org/wiki/Communication_Systems/What_is_Modulation%3F">modulation theory</a>.
 In particular, the above form is called phase modulation, or angle modulation. This type of modulation is very interesting, since encode the information on phase variations.
 Common distortions of the electrical signal on means like coaxial cables, fiber optics, or ether are principally associated with the amplitude, encoding the information on the phase makes the system more resilient to noise. 
-Moreover, since <script type="math/tex">\phi_i</script> is discrete, the phase variations are discrete too. In electrical communications this modulation is called <a href="https://en.wikipedia.org/wiki/Phase-shift_keying">PSK: phase shift keying</a>, used commonly to transmit digital signals.</p>
+Moreover, since <script type="math/tex">\varphi_i</script> is discrete, the phase variations are discrete too. In electrical communications this modulation is called <a href="https://en.wikipedia.org/wiki/Phase-shift_keying">PSK: phase shift keying</a>, used commonly to transmit digital signals.</p>
 
 <p>My experience</p>
 
@@ -377,37 +377,81 @@ Three-step phase-shifting algorithm have the advantage of fast measurement becau
 
 <script type="math/tex; mode=display">% <![CDATA[
 \begin{align*}
-g_1(x,y) &= a(x,y) + b(x,y) \cdot \cos(2 \pi f_0 x + -2\pi/3)\\\
+g_1(x,y) &= a(x,y) + b(x,y) \cdot \cos(2 \pi f_0 x - 2\pi/3)\\
 g_2(x,y) &= a(x,y) + b(x,y) \cdot \cos(2 \pi f_0 x)\\
 g_3(x,y) &= a(x,y) + b(x,y) \cdot \cos(2 \pi f_0 x + 2\pi/3)\\
 \end{align*} %]]></script>
 
 <p>To recover the realtive phase there is a closed form solution:</p>
 
-<script type="math/tex; mode=display">\phi_R(x,y) = \arctan(\sqrt{3} \frac{g_1(x,y) - g_3(x,y)}{2g_2(x,y)-g_1(x,y)-g_3(x,y)})</script>
+<script type="math/tex; mode=display">\varphi_R(x,y) = \arctan(\sqrt{3} \frac{g_1(x,y) - g_3(x,y)}{2g_2(x,y)-g_1(x,y)-g_3(x,y)})</script>
 
 <h2 id="unwrapping">Unwrapping</h2>
-<p>Due to the periodic nature of a given periodic pattern, <script type="math/tex">\phi_R(x,y)</script> value by itself is not a unique representative that we can use to solve the correspondence problem between the image pixels of two or more cameras, i.e., between a single camera and the source of projection (e.g. a common video projector).
-The phase <script type="math/tex">\phi_R(x,y)</script> is called modulo <script type="math/tex">2\pi</script> at each pixel. If the fringe patterns contain multiple fringes, as often is the case, <a href="http://www.wiley.com/WileyCDA/WileyTitle/productCd-0471249351.html">phase unwrapping</a> is necessary to remove the sawtooth-like discontinuities and obtain a continuous phase map.</p>
+<p>Due to the periodic nature of a given periodic pattern, <script type="math/tex">\varphi_R(x,y)</script> value by itself is not a unique representative that we can use to solve the correspondence problem between the image pixels of two or more cameras, i.e., between a single camera and the source of projection, e.g. a common video projector.</p>
 
-<p>A pattern period can be defined either directly by the number of requested periods that pattern must have, or by the length of a single period, bearing in mind the total available pattern width in the context. For simplicity of explanation, we can start by representing our approach by considering two periodic sine patterns, defined by integer length periods <script type="math/tex">\lambda_1</script> and <script type="math/tex">\lambda_2</script>.
-<img src="/images/Unwrap.jpg" /> Figure shows the appearance of two sine patterns: each pattern column has an intensity according to the sine value of its position on the abscissa axis, and the propagation of the absolute phase axis along the width of the pattern. A pair of relative phases <script type="math/tex">(\phi_{R,1}</script>, <script type="math/tex">\phi_{R,2})</script> is indicated for the arbitrary absolute phase value ФABS and the following equations hold:</p>
+<!--------------------------------------->
+<!-- <img src='/images/phase_mod.png'> -->
+<!--------------------------------------->
 
-<p>SS\phi_{ABS} = k_1 \lambda_1 + \phi_{R,1} = k_2 \lambda_2 +\phi_{R,2}</p>
+<p>The phase <script type="math/tex">\varphi_R(x,y)</script> is called modulo <script type="math/tex">2\pi</script> at each pixel. If the fringe patterns contain multiple fringes, as often is the case, <a href="http://www.wiley.com/WileyCDA/WileyTitle/productCd-0471249351.html">phase unwrapping</a> is necessary to remove the sawtooth-like discontinuities and obtain a continuous phase map.
+Some initial works on fringes used only one fringe containing the whole image. This technique lead to poor results due to the low resolution of the phase, or better said the degree/pixel ratio. Using more fringes we are able to have higher resolution, but with more fringes we have an increase of the computational complexity of the unwrapping algorithm.<br />
+A pattern period can be defined either directly by the number of requested periods that pattern must have, or by the length of a single period, bearing in mind the total available pattern width in the context.</p>
+
+<p><img src="/images/Unwrap.jpg" /></p>
+
+<p>Figure shows the appearance of two sine patterns defined by integer length periods <script type="math/tex">\lambda_1</script> and <script type="math/tex">\lambda_2</script>: each pattern column has an intensity according to the sine value of its position on the abscissa axis, and the propagation of the absolute phase axis along the width of the pattern. A pair of relative phases <script type="math/tex">(\varphi_{R,1}</script>, <script type="math/tex">\varphi_{R,2})</script> is indicated for the arbitrary absolute phase value <script type="math/tex">\varphi_{ABS}</script> and the following equations hold:</p>
+
+<script type="math/tex; mode=display">\varphi_{ABS} = k_1 \lambda_1 + \varphi_{R,1} = k_2 \lambda_2 +\varphi_{R,2}</script>
 
 <p>However, this method assume multiple patterns, and multiple acquisitions with different frequencies. Unfortunately, this could be a important downside
-due to the low frame rate of the mobile device.
-In this project we considered different <em>unwrapping</em> techniques, but we used the one with good trade-off</p>
+due to the low frame rate of the mobile device.</p>
+
+<p>In this project we considered a different <strong>unwrapping</strong> technique, also known as <strong>spatial unwrapping</strong>, instead of the one cited above, that is denominated <strong>frequency unwrapping</strong>.
+The main difference between the two techniques is the acquisition time. <strong>Spatial unwrapping</strong> use (x,y) relation on the picture frame to reconstruct the absolute phase, instead <strong>frequency unwrapping</strong> use additional fringe to construct the relation between the picture frame and the absolute phase.
+The last techniques need to acquire additional frames that will cost in terms of acquisition time.
+In our implementation, using this type of technique is not feasible due to the <em>mobile</em> nature of the device. Making every acquisition blurry due to the hand and subjects movements. In fact they need to stay still for the whole acquisition.
+Doing some math: at 30 fps, and using 3 phases, the acquisition will last <script type="math/tex">1/30 * 3 = 100</script> ms. However, increasing the number of frames to 4 <script type="math/tex">1/30 * 4 = 133</script> ms. These times are unfortunately high for a handheld device. Unfortunately we discover, as we’ll explain in major details in the next sections, that a smartphone is not the ideal device to grab and record frames.</p>
+
+<blockquote>
+  <p>As a side note: the smartphone used for this project is the Nexus 4! I think more recent devices will definitely obtain better performances.</p>
+</blockquote>
+
+<h1 id="fast-quality-guided-flood-fill-phase-unwrapping-algorithm">Fast quality-guided flood-fill phase unwrapping algorithm</h1>
+<p>We used the <a href="http://ro.uow.edu.au/cgi/viewcontent.cgi?article=10855&amp;context=infopapers">Fast quality-guided flood-fill phase unwrapping algorithm for three-dimensional fringe pattern profilometry</a> by Chen et. al.
+This algorithm present a good trade-off between speed, computatioanl complexity and results. As we’ll see later, not always perform well on human faces, and for this reason we modify it in a way we can correct the faulty reconstructions.</p>
+
+<h2 id="description-by-the-authors">Description by the authors:</h2>
+<p>The proposed method consists of three steps. First, after the acquisition of the wrapped phase <script type="math/tex">\varphi_R</script>, a quality map is generated according to the phase variance adjacent pixels on the wrapped phase map. According to the quality map, the phase map is divided into several parts which are categorised as either rapid phase changing areas or smooth phase changing areas. Then quality-guided flood-fill phase unwrapping algorithm is applied to rapid phase changing areas and nonguided path-following algorithm is used in the smooth phase changing area. The proposed approach is much faster than the conventional non-guided path-following algorithm, and it is more robust than the non-guided path-following algorithm. Experiments are carried out to verify the performance.</p>
+
+<p>The following figures are obtained by our system projecting the patterns on a white projector screen.
+In the first row there are the three shifted patterns.</p>
+
+<p><img src="/images/Unwrapping/1.png" width="250" /> 
+<img src="/images/Unwrapping/2.png" width="250" />
+<img src="/images/Unwrapping/3.png" width="250" /></p>
+
+<p><img src="/images/Unwrapping/phasecrop.png" width="250" />
+<img src="/images/Unwrapping/offsetcrop.png" width="250" /> 
+<img src="/images/Unwrapping/unwrappedcrop.png" width="250" /></p>
+
+<p>In the second row: the reconstructed wrapped phase <script type="math/tex">\varphi_R</script> on the left, an offset used by the unwrapping algorithm in center, and the final absolute phase <script type="math/tex">\varphi_{ABS}</script> on the right.</p>
+
+<!------------------------------------------------------------------------>
+<!-- This *is*{:.underline} some `code`{:#id}{:.class}.                 -->
+<!-- A [link](test.html){:rel='something'} and some **tools**{:.tools}. -->
+<!--      {:                                                              -->
+<!-- <u>some text</u>                                                   -->
+<!------------------------------------------------------------------------>
 
 <!--------------------------------------------------------------------------------->
 <!-- $$                                                                          -->
 <!-- \begin{align*}                                                              -->
-<!--   & \phi(x,y) = \phi \left(\sum_{i=1}^n x_ie_i, \sum_{j=1}^n y_je_j \right) -->
-<!--   = \sum_{i=1}^n \sum_{j=1}^n x_i y_j \phi(e_i, e_j) = \\                   -->
+<!--   & \varphi(x,y) = \varphi \left(\sum_{i=1}^n x_ie_i, \sum_{j=1}^n y_je_j \right) -->
+<!--   = \sum_{i=1}^n \sum_{j=1}^n x_i y_j \varphi(e_i, e_j) = \\                   -->
 <!--   & (x_1, \ldots, x_n) \left( \begin{array}{ccc}                            -->
-<!--       \phi(e_1, e_1) & \cdots & \phi(e_1, e_n) \\                           -->
+<!--       \varphi(e_1, e_1) & \cdots & \varphi(e_1, e_n) \\                           -->
 <!--       \vdots & \ddots & \vdots \\                                           -->
-<!--       \phi(e_n, e_1) & \cdots & \phi(e_n, e_n)                              -->
+<!--       \varphi(e_n, e_1) & \cdots & \varphi(e_n, e_n)                              -->
 <!--     \end{array} \right)                                                     -->
 <!--   \left( \begin{array}{c}                                                   -->
 <!--       y_1 \\                                                                -->
@@ -419,6 +463,15 @@ In this project we considered different <em>unwrapping</em> techniques, but we u
 <!--------------------------------------------------------------------------------->
 
 <h1 id="android-sdk-ndk-openframework">Android SDK, NDK, OpenFramework</h1>
+<p>We used an unusual composition of tools and libraries to develop the software. <a href="https://developer.android.com/studio/index.html">Android SDK</a> with the eclipse plugin was indispensable to create the apps, although painful and buggy at the time.
+Then we decided to use <a href="http://openframeworks.cc/">OpenFramework</a>, an open source library in C++ for creative coding. We decided to use this combination because OpenFramework contained a version for Android with some function useful for our development. Developed in C++, to create Android Apps we used the <a href="https://developer.android.com/ndk/index.html">Native Development Toolkit</a>.In fact, the time we had to code everything and make a little in house acquisition was limited to one semester!!
+OpenFramework contains simple GUI, and portions of other useful libraries, like <a href="http://opencv.org/">OpenCV</a>, <a href="https://www.khronos.org/opengles/">OpenGL ES</a>, <a href="http://pointclouds.org/">Point of Cloud</a> library, and other useful utilities.</p>
+
+<h2 id="the-apps">The Apps</h2>
+<p>We developed initially three Android apps: calibration app, acquisition app, and reconstruction app. Later, we decided to include in a unique app the first two. Respective programs has been developed on PC too for correct some initials major bugs, and test the algorithms with a high resolution camera.
+The main app, and also the most critical on a mobile deviceis the <em>acquisition</em> app.
+In fact, The acquisition is a temporized process, where the procedure is to simultaneously create and display the pattern, shoot with the camera, and
+store on memory the image.</p>
 
 <p><img src="/images/Screenshot_2014-05-01-18-14-13.png" /></p>
 
