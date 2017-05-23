@@ -122,10 +122,28 @@
 <!-- end custom head snippets -->
 
     
+      <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    TeX: {
+      equationNumbers: {
+        autoNumber: "AMS"
+      }
+    },
+    tex2jax: {
+      inlineMath: [ ['$','$'], ['\(', '\)'] ],
+      displayMath: [ ['$$','$$'] ],
+      processEscapes: true,
+    }
+  });
+</script>
+<script type="text/javascript"
+        src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+    
   </head>
 
   <body>
-
     <!--[if lt IE 9]>
 <div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
 <![endif]-->
@@ -157,10 +175,229 @@
     </div>
   </div>
 </div>
-
     
 
 
+
+<div id="main" role="main">
+  <article class="splash" itemscope itemtype="http://schema.org/CreativeWork">
+    <meta itemprop="headline" content="A Mobile Structured Light System for 3D Face Acquisition.">
+    <meta itemprop="description" content="A mobile sensor based on fringe projection techniques is developed with the goal of acquiring face 3D and color with a smartphone device. The system consists of a portable pico-projector and an Android-based smartphone.">
+    <meta itemprop="datePublished" content="January 01, 2015">
+    
+
+    <section class="page__content" itemprop="text">
+      <p>abstract: |
+    A mobile sensor based on fringe projection techniques is developed, with
+    the goal of acquiring 3D face data with a smartphone device. The system
+    consists of a portable pico-projector and an Android-based smartphone.
+    The data acquisition, pattern generation and reconstruction of the final
+    3D point cloud are all driven by the smartphone. The sensor allows
+    capturing 3D data of the observed facial surface along with color
+    information. We present results on 3D face matching using 3D face data
+    acquired using the mobile device.
+author:</p>
+<ul>
+  <li>|
+  Marco Piccirilli, Gianfranco Doretto,  Arun Ross, 
+  and Donald Adjeroh_<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup><sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup>
+…</li>
+</ul>
+
+<p>Depth sensor, structured light, mobile device, 3D face acquisition, 3D
+face matching, 3D biometrics.</p>
+
+<h1 id="introduction">Introduction</h1>
+
+<p>increased availability of handheld optical 3D scanning devices as well
+as the maturing of 3D printing options have led to a new interest in 3D
+scanners in general. Although Kinect type of
+scanners @corporation2011kinect, can cheaply acquire a stream of 3D
+images, current sensors do not meet the mobility requirements for many
+applications. Most high-end scanners are not easily transportable,
+require significant set-up time, and are not user
+friendly @Luhmann10p558. Our goal is the realization of a 3D acquisition
+system on a smartphone, providing the advantages of being portable,
+battery-powered, and yet offering good accuracy, and short acquisition
+time.</p>
+
+<p>3D acquisition using passive stereo vision heavily depends on the nature
+of the surfaces being imaged, and on the presence of surface texture.
+Active illumination techniques remove this dependence, speeding up the
+reconstruction step. A minimal active system is composed of a light
+source and a camera. In @Schindler_photometricstereo, the smartphone
+screen is used as a light source. However, the display power drastically
+limits the acquisition accuracy and the acquired area. Instead, our
+system uses a pico-projector as a portable light source @pmid22781258,
+and can be used indoors as well as outdoors. This work constitutes the
+first time a pico-projector is being driven by a smartphone for 3D face
+acquisition.</p>
+
+<h1 id="methods">Methods</h1>
+
+<p>Our sensor system is composed by a LG Nexus 4 smartphone, driving an
+AAXA P300 pico-projector. The smartphone acquires video at 30 FPS with a
+resolution of 640 $\times$ 480 pixels. The projector illuminates the
+scene with fringe patterns having resolution of $1024 \times 968$
+pixels, emitting 300 lumens. The smartphone runs Android OS, and three
+mobile applications based on the Android SDK, NDK, and OpenFramework.
+The first one performs data acquisition, the second computes the 3D
+reconstruction of a face, and the third is used for the calibration of
+the system. The following sections provide details about the specific
+algorithms implemented.</p>
+
+<h3 id="speed-and-unconstrained-scenarios">Speed and unconstrained scenarios</h3>
+
+<p>In fringe projection methods, the scene is illuminated by fringe
+patterns and several images are captured. A measure of the fringe
+distortion is used to recover depth. Typically, a sequence of patterns
+representing Grey-codes is projected @Luhmann10p558, requiring the
+acquisition of tens of images for one depth map estimation. Even with an
+image acquisition rate of 30 FPS, this approach requires the sensor and
+the subject being captured to remain still for a relatively long time,
+imposing obvious limitations. Alternatively, phase-shifting methods are
+among the most robust @Huang:06, and can provide roughly a 10-fold
+reduction in the length of the sequence of projected patterns.</p>
+
+<p>One of the simplest phase-shifting strategies, @Huang:06, estimates
+depth from phase increments, computed with respect to a reference plane.
+This entails taking two acquisitions without moving the sensor. The
+first one with only the reference plane, and the second with the subject
+in front of it. Again, this approach severely reduces the applicability
+of the sensor, because one cannot acquire depth maps of faces in
+unconstrained scenarios, namely where neither a reference plane is
+required, nor the sensor remains still over multiple acquisitions. The
+only techniques that do not require a reference are the stereo fringe
+projection approaches, where depth estimation is based on triangulation
+methods @doi:10.1117/1.OE.52.6.063601.</p>
+
+<p>Given our camera-pico-projector setup, we exploit the <em>camera-projector
+epipolar (CPE)</em> algorithm @doi:10.1117/1.OE.52.6.063601 for computing
+depth. Compared to others, CPE requires the generation of only one
+sequence of fringe patterns, further shortening the sensor acquisition
+time by a factor of 2. CPE requires the intrinsic and extrinsic
+calibration parameters beforehand, while smartphone cameras present
+significant lens distortion. We estimate all the calibration and
+distortion parameters according to @6375029. The point correspondence is
+established based on epipolar geometry and the so-called <em>unwrapped
+phase</em>, which is estimated by the phase-shifting method introduced
+below.</p>
+
+<h3 id="phase-shifting-algorithm">Phase-shifting algorithm</h3>
+
+<p>We use a three-step phase-shifting method @Huang:06, with a shift of
+$2 \pi/3$, to encode and decode phase information. This provides a
+number of advantages, including an excellent trade-off between speed and
+robustness. It is robust to noise and illumination variation, allowing
+sensor use in indoor and outdoor conditions. Moreover, a sequence of
+fringe patterns is captured by three images, as opposed to methods that
+require more. This reduces the acquisition time, and increases
+robustness against the relative motion between sensor and imaged
+subject. With a 30 FPS nominal frame rate, our system acquires about 20
+FPS, leading to a depth map acquisition rate of 7 FPS. The three-step
+approach has also the advantage of recovering the texture map without
+requiring the acquisition of an extra image.</p>
+
+<p>The acquisition application drives the pico-projector and allows setting
+the fringe period, and the min and max intensities to avoid image
+saturation. The 3D reconstruction application includes a fast
+implementation of the three-step phase-shifting decoding for recovering
+the wrapped phase [@Huang:06]. This algorithm is very light, based on a
+lookup table, and runs in real time on state-of-the-art smartphones. A
+gamma correction of the images is introduced to compensate for the
+non-linearities of the projector and the camera. The wrapped phase
+exhibits sawtooth-like discontinuities of $2 \pi$. To obtain a
+continuous phase map, those are removed by the following method.</p>
+
+<h3 id="phase-unwrapping">Phase unwrapping</h3>
+
+<p>To minimize the acquisition time, we deploy a spatial unwrapping method,
+as opposed to a temporal unwrapping, which requires the acquisition of
+more frames. We use the multilevel quality-based unwrapping @Zhang:07.
+It computes a quality map for guiding the unwrapping of the phase on the
+pixels with highest quality, making the process faster and more
+reliable.</p>
+
+<h3 id="3d-face-reconstruction">3D face reconstruction</h3>
+
+<p>During the acquisition, the built-in face detection capabilities of the
+smartphone are exploited for two reasons. First, the camera metering and
+focus is tuned to the face area of the imaged subject, leading to a well
+exposed and in-focus acquisition. Second, the face bounding box
+information is recorded and subsequently used to select the pixels for
+the 3D face reconstruction algorithm. Specifically, the phase and
+position of pixels inside the box and with quality (provided by the
+phase unwrapping @Zhang:07) above a certain threshold are used by the
+CPE algorithm to recover depth and texture. This approach limits the
+number of points to be processed (usually around $50,000$), further
+improving the speed of the reconstruction. Figure [fig-results](left)
+shows the results of this approach. Notice that background pixels with
+high quality can become part of the face even if their depth is
+significantly different, leading to visible artifacts. This is due to
+the inability of the spatial unwrapping to correctly handle depth
+discontinuities bigger than $2\pi$. We address this issue by computing
+the centroid of the point cloud, and do PCA of the points within a ball
+of radius 1/4 of the smallest edge of the bounding box. The third
+principal component estimates the head orientation with respect to the
+sensor. Points with depth, projected onto this component, outside of a
+prefixed range are filtered out as outliers.
+Figure [fig-results](center) shows the improved result using this
+method.</p>
+
+<h1 id="results">Results</h1>
+
+<p>The system is based on patterns composed of $16$ fringes with a period
+of $64$ pixels, and we tested it for the purpose of mobile 3D face
+recognition. We implemented a face matcher where a 3D face is
+represented by a viewpoint feature histogram descriptor @Rusu10IROS, and
+recognition is based on comparing histograms with the $\chi^2-$distance.
+Figure [fig-results](right) shows the cumulative match characteristic
+curve (CMC) for our system and two other devices: the Kinect and the
+Mesa SR4000 TOF camera. The depth maps computed with our sensor lead to
+results comparable to those from the Kinect, and largely outperform the
+TOF camera. This is justified by the lower resolution of the TOF camera
+($176 \times 144$ pixels), compared to our sensor and the Kinect. We
+also measured a carton box to evaluate the accuracy of our device. We
+compared the acquisition from our system with that from a Minolta Vivid
+$910$ 3D laser scanner and the Kinect at 80 cm. The average error is
+$0.7$ mm for our device, $0.2$ mm for the Minolta, and $1.0$ mm for the
+Kinect.</p>
+
+<p><img src="/images/Smartphone_Sensor/snapshot_syed01_cutted.png" alt="Face depth and texture maps with outliers (left), and with outliers
+filtered out (center). Face recognition CMC curves (right).&lt;span
+data-label=&quot;fig-results&quot;&gt;&lt;/span&gt;" />
+<img src="/images/Smartphone_Sensor/snapshot_syed00_cutted.png" alt="Face depth and texture maps with outliers (left), and with outliers
+filtered out (center). Face recognition CMC curves (right)." />
+<img src="/images/Smartphone_Sensor/Fig1c.png" alt="Face depth and texture maps with outliers (left), and with outliers
+filtered out (center). Face recognition CMC curves (right)." /></p>
+
+<h1 id="conclusion">Conclusion</h1>
+
+<p>We developed a portable 3D face acquisition system based on a smartphone
+and a pico-projector. The system leads to results comparable to those
+from the Microsoft Kinect, however, the proposed system is portable,
+battery-powered, and can work outdoors.</p>
+
+<h1 id="acknowledgment-acknowledgment-unnumbered">Acknowledgment {#acknowledgment .unnumbered}</h1>
+
+<p>Many thanks to Richard Beal, Shashank Sabniveesu and John Bolles for
+their assistance during data acquisition. Research funded, in part, by
+NSF I/UCRC CITeR 1066197.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:1">
+      <p>M. Piccirilli, G. Doretto, and D. Adjeroh are with LCSEE, West Virginia University.&nbsp;<a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:2">
+      <p>A. Ross is with CSE, Michigan State University, MSU.&nbsp;<a href="#fnref:2" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+    </section>
+  </article>
+</div>
 
     </script>
 

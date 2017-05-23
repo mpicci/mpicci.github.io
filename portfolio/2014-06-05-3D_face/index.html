@@ -144,7 +144,6 @@
   </head>
 
   <body>
-
     <!--[if lt IE 9]>
 <div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
 <![endif]-->
@@ -176,7 +175,6 @@
     </div>
   </div>
 </div>
-
     
 
 
@@ -359,7 +357,7 @@ The PS method typically assumes a projection of periodic sinusoidal patterns sev
 
 <script type="math/tex; mode=display">g(x,y) = a(x,y) + b(x,y) \cdot \cos(2 \pi f_0 x + \varphi_i(x,y))</script>
 
-<p>where, <script type="math/tex">a(x,y)</script> is the background intensity, <script type="math/tex">b(x,y)</script> is the amplitude modulation of fringes, <script type="math/tex">f_0</script> is the spatial carrier frequency, <script type="math/tex">\varphi_i(x,y)</script>is the phase modulation of fringes.</p>
+<p>where <script type="math/tex">a(x,y)</script> is the background intensity, <script type="math/tex">b(x,y)</script> is the amplitude modulation of fringes, <script type="math/tex">f_0</script> is the spatial carrier frequency, <script type="math/tex">\varphi_i(x,y)</script>is the phase modulation of fringes.</p>
 
 <h2 id="in-electrical-communications">In Electrical Communications</h2>
 <p>The above equation is very common in electrical communications! It’s the basic formulation used in <a href="https://en.wikibooks.org/wiki/Communication_Systems/What_is_Modulation%3F">modulation theory</a>.
@@ -468,8 +466,13 @@ Then we decided to use <a href="http://openframeworks.cc/">OpenFramework</a>, an
 OpenFramework contains simple GUI, and portions of other useful libraries, like <a href="http://opencv.org/">OpenCV</a>, <a href="https://www.khronos.org/opengles/">OpenGL ES</a>, <a href="http://pointclouds.org/">Point of Cloud</a> library, and other useful utilities.</p>
 
 <h2 id="the-apps">The Apps</h2>
-<p>We developed initially three Android apps: calibration app, acquisition app, and reconstruction app. Later, we decided to include in a unique app the first two. Respective programs has been developed on PC too for correct some initials major bugs, and test the algorithms with a high resolution camera.
-The main app, and also the most critical on a mobile deviceis the <em>acquisition</em> app.
+<p>We developed initially three Android apps: calibration app, acquisition app, and reconstruction app. Later, we decided to include in a unique app the first two. Respective programs has been developed on PC too for correct some initials major bugs, and test the algorithms with a high resolution camera.</p>
+
+<blockquote>
+  <p>Despite a general shift towards remote cloud processing for a range of mobile applications, we argue that it is intrinsically desirable that heavy sensing tasks be carried out locally on-device, due to the usually tight latency requirements, and the prohibitively large data transmission requirement as dictated by the high Therefore we also demonstrate the feasibility of implementing and deploying the applications on mobile devices by showing low overhead for tasks like acquisition and 3D reconstruction, and more importantly visualization.</p>
+</blockquote>
+
+<p>The main app, and also the most critical on a mobile deviceis the <em>acquisition</em> app.
 In fact, The acquisition is a temporized process, where the procedure is to simultaneously create and display the pattern, shoot with the camera, and
 store on memory the image.</p>
 
@@ -516,7 +519,7 @@ store on memory the image.</p>
 ">Previous</a>
     
     
-      <a href="https://mpicci.github.io/portfolio/2016-09-09-Speaker-recognition/" class="pagination--pager" title="Speaker verification system with a siamese network
+      <a href="https://mpicci.github.io/portafoglio/2016-12-05 CPE691A" class="pagination--pager" title="Voice Verification of similar speech.
 ">Next</a>
     
   </nav>
@@ -529,7 +532,6 @@ store on memory the image.</p>
   
   
 </div>
-
 
     </script>
 
