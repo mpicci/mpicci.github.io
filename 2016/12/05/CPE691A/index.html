@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Voice Verification of similar speech.</title>
+
+  <meta name="author" content="marco Piccirilli" />
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <link rel="alternate" type="application/rss+xml" href="/atom.xml" />
+
+  <link href="/vendor/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/vendor/css/font-awesome.min.css" rel="stylesheet">
+  <link href="/vendor/css/academicons.min.css" rel="stylesheet">
+  <link href="/vendor/pygments/default.css" rel="stylesheet">
+  <link href="/css/bamos.css" rel="stylesheet">
+  <link href="/css/sharingbuttons.css" rel="stylesheet">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+	<div class="navbar navbar-default navbar-fixed-top">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-10 col-md-offset-1">
+					<div class="navbar-header">
+						  <a href="/" class="navbar-brand">
+                  <div>
+                      <img src="/images/marco.jpg" class="img-circle"></img>
+                      Marco Piccirilli
+                  </div>
+              </a>
+						<button class="navbar-toggle" type="button" data-toggle="collapse"
+                    data-target="#navbar-main">
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+					</div>
+					<div class="navbar-collapse collapse" id="navbar-main">
+						<ul class="nav navbar-nav">
+							<li>
+								<a href="/">About</a>
+							</li>
+							<li>
+								<a href="/blog/">Blog</a>
+							</li>
+						</ul>
+						<ul class="nav navbar-nav navbar-right" style="font-size: 1.5em">
+							<li>
+								<a href="http://github.com/mpicci" target="_blank">
+									<i class="fa fa-lg fa-github"></i></a>
+							</li>
+							<li>
+								<a href="http://twitter.com/piccibiker" target="_blank">
+									<i class="fa fa-lg fa-twitter"></i></a>
+							</li>
+              <li>
+                <a href="https://scholar.google.com/citations?user=o_4Mdc4AAAAJ&hl=en" target="_blank">
+                  <i class="ai ai-google-scholar"></i></a>
+              </li>
+              <li>
+                  <a href="/atom.xml" target="_blank">
+                      <i class="fa fa-rss"></i></a>
+              </li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+  <br/>
+<div class="container">
+<div class="row">
+<div class="col-md-10 col-md-offset-1">
+  <h1>Voice Verification of similar speech.</h1>
+<em>December  5, 2016</em>
+<br>
+
+<!-- From: http://sharingbuttons.io/ -->
+
+<!-- Sharingbutton Twitter -->
+<a class="resp-sharing-button__link" href="https://twitter.com/intent/tweet/?text=Voice Verification of similar speech. by @brandondamos &amp;url=http://mpicci.github.io/2016/12/05/CPE691A/" target="_blank" aria-label="">
+  <div class="resp-sharing-button resp-sharing-button--twitter resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg version="1.1" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
+        <g>
+            <path d="M23.444,4.834c-0.814,0.363-1.5,0.375-2.228,0.016c0.938-0.562,0.981-0.957,1.32-2.019c-0.878,0.521-1.851,0.9-2.886,1.104 C18.823,3.053,17.642,2.5,16.335,2.5c-2.51,0-4.544,2.036-4.544,4.544c0,0.356,0.04,0.703,0.117,1.036 C8.132,7.891,4.783,6.082,2.542,3.332C2.151,4.003,1.927,4.784,1.927,5.617c0,1.577,0.803,2.967,2.021,3.782 C3.203,9.375,2.503,9.171,1.891,8.831C1.89,8.85,1.89,8.868,1.89,8.888c0,2.202,1.566,4.038,3.646,4.456 c-0.666,0.181-1.368,0.209-2.053,0.079c0.579,1.804,2.257,3.118,4.245,3.155C5.783,18.102,3.372,18.737,1,18.459 C3.012,19.748,5.399,20.5,7.966,20.5c8.358,0,12.928-6.924,12.928-12.929c0-0.198-0.003-0.393-0.012-0.588 C21.769,6.343,22.835,5.746,23.444,4.834z"/>
+        </g>
+    </svg>
+    </div>
+  </div>
+</a>
+
+<!-- Sharingbutton Facebook -->
+<a class="resp-sharing-button__link" href="https://facebook.com/sharer/sharer.php?u=http://mpicci.github.io/2016/12/05/CPE691A/" target="_blank" aria-label="">
+  <div class="resp-sharing-button resp-sharing-button--facebook resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg version="1.1" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
+        <g>
+            <path d="M18.768,7.465H14.5V5.56c0-0.896,0.594-1.105,1.012-1.105s2.988,0,2.988,0V0.513L14.171,0.5C10.244,0.5,9.5,3.438,9.5,5.32 v2.145h-3v4h3c0,5.212,0,12,0,12h5c0,0,0-6.85,0-12h3.851L18.768,7.465z"/>
+        </g>
+    </svg>
+    </div>
+  </div>
+</a>
+
+<!-- Sharingbutton Google+ -->
+<a class="resp-sharing-button__link" href="https://plus.google.com/share?url=http://mpicci.github.io/2016/12/05/CPE691A/" target="_blank" aria-label="">
+  <div class="resp-sharing-button resp-sharing-button--google resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg version="1.1" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
+        <g>
+            <path d="M11.366,12.928c-0.729-0.516-1.393-1.273-1.404-1.505c0-0.425,0.038-0.627,0.988-1.368 c1.229-0.962,1.906-2.228,1.906-3.564c0-1.212-0.37-2.289-1.001-3.044h0.488c0.102,0,0.2-0.033,0.282-0.091l1.364-0.989 c0.169-0.121,0.24-0.338,0.176-0.536C14.102,1.635,13.918,1.5,13.709,1.5H7.608c-0.667,0-1.345,0.118-2.011,0.347 c-2.225,0.766-3.778,2.66-3.778,4.605c0,2.755,2.134,4.845,4.987,4.91c-0.056,0.22-0.084,0.434-0.084,0.645 c0,0.425,0.108,0.827,0.33,1.216c-0.026,0-0.051,0-0.079,0c-2.72,0-5.175,1.334-6.107,3.32C0.623,17.06,0.5,17.582,0.5,18.098 c0,0.501,0.129,0.984,0.382,1.438c0.585,1.046,1.843,1.861,3.544,2.289c0.877,0.223,1.82,0.335,2.8,0.335 c0.88,0,1.718-0.114,2.494-0.338c2.419-0.702,3.981-2.482,3.981-4.538C13.701,15.312,13.068,14.132,11.366,12.928z M3.66,17.443 c0-1.435,1.823-2.693,3.899-2.693h0.057c0.451,0.005,0.892,0.072,1.309,0.2c0.142,0.098,0.28,0.192,0.412,0.282 c0.962,0.656,1.597,1.088,1.774,1.783c0.041,0.175,0.063,0.35,0.063,0.519c0,1.787-1.333,2.693-3.961,2.693 C5.221,20.225,3.66,19.002,3.66,17.443z M5.551,3.89c0.324-0.371,0.75-0.566,1.227-0.566l0.055,0 c1.349,0.041,2.639,1.543,2.876,3.349c0.133,1.013-0.092,1.964-0.601,2.544C8.782,9.589,8.363,9.783,7.866,9.783H7.865H7.844 c-1.321-0.04-2.639-1.6-2.875-3.405C4.836,5.37,5.049,4.462,5.551,3.89z"/>
+            <polygon points="23.5,9.5 20.5,9.5 20.5,6.5 18.5,6.5 18.5,9.5 15.5,9.5 15.5,11.5 18.5,11.5 18.5,14.5 20.5,14.5 20.5,11.5  23.5,11.5 	"/>
+        </g>
+    </svg>
+    </div>
+  </div>
+</a>
+
+<!-- Sharingbutton LinkedIn -->
+<a class="resp-sharing-button__link" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http://mpicci.github.io/2016/12/05/CPE691A/&amp;title=Voice Verification of similar speech.&amp;summary=Voice Verification of similar speech.&amp;source=http://mpicci.github.io/2016/12/05/CPE691A/" target="_blank" aria-label="">
+  <div class="resp-sharing-button resp-sharing-button--linkedin resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg version="1.1" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
+        <g>
+            <path d="M6.527,21.5h-5v-13h5V21.5z M4.018,6.5H3.988C2.478,6.5,1.5,5.318,1.5,4.019c0-1.329,1.008-2.412,2.547-2.412 c1.541,0,2.488,1.118,2.519,2.447C6.565,5.354,5.588,6.5,4.018,6.5z M15.527,12.5c-1.105,0-2,0.896-2,2v7h-5c0,0,0.059-12,0-13h5 v1.485c0,0,1.548-1.443,3.938-1.443c2.962,0,5.062,2.144,5.062,6.304V21.5h-5v-7C17.527,13.396,16.632,12.5,15.527,12.5z"/>
+        </g>
+    </svg>
+    </div>
+  </div>
+</a>
+
+<!-- Sharingbutton Reddit -->
+<a class="resp-sharing-button__link" href="https://reddit.com/submit/?url=http://mpicci.github.io/2016/12/05/CPE691A/" target="_blank" aria-label="">
+  <div class="resp-sharing-button resp-sharing-button--reddit resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg version="1.1" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
+        <path d="M24,11.5c0-1.654-1.346-3-3-3c-0.964,0-1.863,0.476-2.422,1.241c-1.639-1.006-3.747-1.64-6.064-1.723 c0.064-1.11,0.4-3.049,1.508-3.686c0.72-0.414,1.733-0.249,3.01,0.478C17.189,6.317,18.452,7.5,20,7.5c1.654,0,3-1.346,3-3 s-1.346-3-3-3c-1.382,0-2.536,0.944-2.883,2.217C15.688,3,14.479,2.915,13.521,3.466c-1.642,0.945-1.951,3.477-2.008,4.551 C9.186,8.096,7.067,8.731,5.422,9.741C4.863,8.976,3.964,8.5,3,8.5c-1.654,0-3,1.346-3,3c0,1.319,0.836,2.443,2.047,2.844 C2.019,14.56,2,14.778,2,15c0,3.86,4.486,7,10,7s10-3.14,10-7c0-0.222-0.019-0.441-0.048-0.658C23.148,13.938,24,12.795,24,11.5z  M2.286,13.366C1.522,13.077,1,12.351,1,11.5c0-1.103,0.897-2,2-2c0.635,0,1.217,0.318,1.59,0.816 C3.488,11.17,2.683,12.211,2.286,13.366z M6,13.5c0-1.103,0.897-2,2-2s2,0.897,2,2c0,1.103-0.897,2-2,2S6,14.603,6,13.5z  M15.787,18.314c-1.063,0.612-2.407,0.949-3.787,0.949c-1.387,0-2.737-0.34-3.803-0.958c-0.239-0.139-0.321-0.444-0.182-0.683 c0.139-0.24,0.444-0.322,0.683-0.182c1.828,1.059,4.758,1.062,6.59,0.008c0.239-0.138,0.545-0.055,0.683,0.184 C16.108,17.871,16.026,18.177,15.787,18.314z M16,15.5c-1.103,0-2-0.897-2-2c0-1.103,0.897-2,2-2s2,0.897,2,2 C18,14.603,17.103,15.5,16,15.5z M21.713,13.365c-0.397-1.155-1.201-2.195-2.303-3.048C19.784,9.818,20.366,9.5,21,9.5 c1.103,0,2,0.897,2,2C23,12.335,22.468,13.073,21.713,13.365z"/>
+    </svg>
+    </div>
+  </div>
+</a>
+
+<!-- Sharingbutton E-Mail -->
+<a class="resp-sharing-button__link" href="mailto:?subject=Voice Verification of similar speech.&amp;body=http://mpicci.github.io/2016/12/05/CPE691A/" target="_self" aria-label="">
+  <div class="resp-sharing-button resp-sharing-button--email resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg version="1.1" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
+        <path d="M22,4H2C0.897,4,0,4.897,0,6v12c0,1.103,0.897,2,2,2h20c1.103,0,2-0.897,2-2V6C24,4.897,23.103,4,22,4z M7.248,14.434 l-3.5,2C3.67,16.479,3.584,16.5,3.5,16.5c-0.174,0-0.342-0.09-0.435-0.252c-0.137-0.239-0.054-0.545,0.186-0.682l3.5-2 c0.24-0.137,0.545-0.054,0.682,0.186C7.571,13.992,7.488,14.297,7.248,14.434z M12,14.5c-0.094,0-0.189-0.026-0.271-0.08l-8.5-5.5 C2.997,8.77,2.93,8.46,3.081,8.229c0.15-0.23,0.459-0.298,0.691-0.147L12,13.405l8.229-5.324c0.232-0.15,0.542-0.084,0.691,0.147 c0.15,0.232,0.083,0.542-0.148,0.691l-8.5,5.5C12.189,14.474,12.095,14.5,12,14.5z M20.934,16.248 C20.842,16.41,20.673,16.5,20.5,16.5c-0.084,0-0.169-0.021-0.248-0.065l-3.5-2c-0.24-0.137-0.323-0.442-0.186-0.682 s0.443-0.322,0.682-0.186l3.5,2C20.988,15.703,21.071,16.009,20.934,16.248z"/>
+    </svg>
+    </div>
+  </div>
+</a>
+
+
+<hr style="margin-top: 0;">
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+
+<script type="text/javascript" async="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML">
+</script>
+
+<ul id="toc"></ul>
+
+<hr />
+
+<h2 id="introduction">Introduction</h2>
+
+<p>We want to study the problem of voice verification. The typical setup is
+constituted by brief speech segments of different individuals. These
+individuals have voices that sound alike. This is common in subjects
+like twins. The system will learn the similarity metric between subjects
+that are in same class for a subsequent verification step. In this
+scenario the number of categories is very large and not known during
+training, and the number of training samples for a single category is
+very small. The learning process minimizes a discriminative loss
+function that drives the similarity metric to be small for pairs of
+features from similar subjects, and large for pairs from different
+persons. The proposed architecture is a <strong>Siamese</strong> network @Bromley93.
+A general Siamese framework for visual recognition comprises two
+identical networks and one cost module. The input to the system is a
+pair of images and a label. The images are passed through the
+sub-networks, yielding two outputs which are passed to the cost module
+which produces the scalar energy. In speech recognition we have a
+different type of signal. Usually the audio signal is 1-D, instead of
+2-D as for the images. In this project we are going to use two
+representation of the audio signal: <strong>spectrogram</strong>, and <strong>MFCC</strong>.</p>
+
+<p>A <strong>spectrogram</strong> is a very detailed, accurate image of your audio,
+displayed in either 2D or 3D. Audio is shown on a graph according to
+time and frequency, with brightness or height indicating amplitude.
+Whereas a waveform shows how your signal’s amplitude changes over time,
+the spectrogram shows this change for every frequency component in the
+signal.</p>
+
+<p>The <strong>mel-frequency cepstrum MFC</strong> is a representation of the
+short-term power spectrum of a sound, based on a linear cosine transform
+of a log power spectrum on a nonlinear mel scale of frequency
+<strong>Mel-frequency cepstral coefficients MFCCs</strong> are coefficients that
+collectively make up an MFC. They are derived from a type of cepstral
+representation of the audio clip, a nonlinear “spectrum-of-a-spectrum”.
+The difference between the cepstrum and the mel-frequency cepstrum is
+that in the <strong>MFC</strong>, the frequency bands are equally spaced on the mel
+scale, which approximates the human auditory system’s response more
+closely than the linearly-spaced frequency bands used in the normal
+cepstrum. This frequency warping can allow for better representation of
+sound, for example, in audio compression.</p>
+
+<p>The difference of these two representation is the dimensionality. A
+spectrogram is essentially an image, thus we can use the the well known
+convolutional neural network used for computer vision applications. MFCC
+constitute a 1-D vector that need to be analyzed by a neural network
+with a slightly different architecture.</p>
+
+<h3 id="a-more-advance-architecture-lstm">A more advance architecture: LSTM</h3>
+
+<p>One of the reasons training networks is difficult is that the errors
+computed in backpropagation are multiplied by each other once per
+timestep. If the errors are small, the error quickly dies out, becoming
+very small; if the errors are large, they quickly become very large due
+to repeated multiplication. An alternative architecture built with Long
+Short-Term Memory (LSTM) cells attempts to relieve from this issue.</p>
+
+<p>Deep LSTM and Bidirectional LSTM @Graves2013 were recently introduced to
+speech recognition. These methods have several advantages: they do not
+require forced alignments to pre-segment the acoustic data, they
+directly optimise the probability of the target sequence conditioned on
+the input sequence, and especially in the case of Sequence Transduction, they are able to learn an implicit language model from the
+acoustic training data.</p>
+
+<h2 id="dateset">Dateset</h2>
+
+<p>Unfortunately, given the nature of this task, not so many dataset are
+available with the required characteristic. For this project we use two
+dataset. A detaset composed of a small number of subjects (24) uttering
+digits, and a more large dataset composed of similar subjects voices in
+a dialog. In this project we use two basic features: spectrogram, and
+the “raw” soundwave. We focus on these basic representations because we
+want to explore the studied architectures with very basic representation
+and limited pre processing. More complex features can be used, however
+we believe that convolutional layers with temporal based units like the
+LSTM can achieve the state of the art performance.</p>
+
+<p>The larger dataset, that we call Speech dataset, is composed of 2057
+files coming from roughly 300 subjects. Each recording is composed of a
+brief dialog of 40 seconds acquired with different devices.</p>
+
+<p>Pre-processing</p>
+
+<p>An initial pre-processing stage has been applied to each recording to
+eliminate the void spaces, to normalize the signal, and to resample at a
+more lower common sample rate. Finally a conversion of the 16 bit signal
+to the [-1,1] range has been applied due to better performance in the
+network training.</p>
+
+<p>For the digit dataset we mainly used the spectrograms, obtained by a
+Short Fourier Transform and the subsequent visualization of the
+spectrum.</p>
+
+<center>
+<img src="/data/2016-12-05/Spectrum1.png" alt="Spectrum" width="250" /> 
+<img src="/data/2016-12-05/0_Agnes.wav.png" width="250" /> 
+</center>
+<!------------------------------------------------------------------------------------------------------------------------------------------------>
+<!-- ![Spectrogram: Speech dataset (Left), Digits dataset (Right).<span data-label="fig:1"></span>](/data/2016-12-05/Spectrum1.png)          -->
+<!-- ![Spectrogram: Speech dataset (Left), Digits dataset (Right).<span data-label="fig:1"></span>](/data/2016-12-05/0_Agnes.wav.png "fig:") -->
+<!------------------------------------------------------------------------------------------------------------------------------------------------>
+
+<h3 id="siamese-data">Siamese data.</h3>
+
+<p>The siamese network @Bromley93 is composed of a feed forward network and
+a siamese replica that shares the same weights. A downside of the
+siamese framework is the higher number of samples require. In fact, each
+sample is composed of a pair that can be from the same class ( label <script type="math/tex">1</script> )
+or from different classes  ( label <script type="math/tex">0</script> ). To avoid the unbalance between
+negative samples and positive we limit the number of total pairs by the
+numbers of pairs that we can obtain from the same class. Since our
+object is the subject verification, we divide the dataset in training
+and testing sets by subjects. We select 400 subjects for training and
+101 subjects for testing with the ratio $60.20 \%$. This division has been
+done such that we have at lest a couple of sample for each subject.
+Unfortunately there are subject with just one sample! Alternative will
+be to use different temporal segments of the same sample as multiple
+samples.</p>
+
+<h2 id="network-architecture">Network Architecture</h2>
+
+<p>We tested different architectures with the common feature to be a
+siamese architecture. This feature is ideal to create a verification
+scheme. We tested some naive configurations composed of a fully
+connected structure working on spectrogram data. However the main focus
+has been on a siamese LSTM.</p>
+
+<h3 id="learning">Learning</h3>
+
+<p>The learning of the siamese architecture can be quite challenging. We
+refer to the work of Chopra et al @ChopraS2005 that present a similar
+objective on face verification. The idea is to learn a function that
+maps input patterns into a target space such that the $L_1$ norm in the
+target space approximates the “semantic” distance in the input space.
+The learning process minimizes a discriminative loss function that
+drives the similarity metric to be small for pairs of faces from the
+same person, and large for pairs from different persons.</p>
+
+<p>\begin{equation}
+  \mathcal{L}(W) = \sum_{i=1}^P L(W,(Y,X_1,X_2)^i)
+\end{equation}</p>
+
+<p>\begin{equation}
+L(W,(Y,X_1,X_2)^i) = (1-Y) L_G (E_W(X_1,X_2)^i) + Y L_I (E_W(X_1,X_2)^i)
+\end{equation}</p>
+
+<p>with 
+\begin{equation}
+  E_W(X_1,X_2) = ||G_W(X_1) - G_W(X_2)|| 
+\end{equation}
+<script type="math/tex">(Y,X_1,X_2)^i</script> is the i-th sample which is composed of a pair of images and a label (genuine or
+impostor), $L_G$ is the partial loss function for a genuine pair, $L_I$ the partial loss function for an impostor pair, and $P$ the number of
+training samples. $L_I$ and $L_G$ should be designed in such a way that the minimization of $L$ will decrease the energy of genuine pairs and
+increase the energy of impostor pairs.</p>
+
+<h2 id="siamese-dense">Siamese Dense</h2>
+
+<p>Since the proposed architecture (Siamese LSTM) is untested for audio
+signals on the tested dataset, we used a fully connected architecture
+(Figure [fig:net1]) as baseline method.</p>
+
+<!-- <center> -->
+<!-- <img src='/data/2016-12-05/CPE691A_Report-figure0.png' width="680px"> -->
+<!-- </center> -->
+
+<h3 id="perfomance">Perfomance</h3>
+
+<p>For this configuration we use the digit dataset with spectrogram
+representation. Since the input layer is composed of fully connected
+Relu units we vectorize the spectrogram images. For this experiment we
+have 24 total subjects, with 19 used for training and the remaining for
+testing.</p>
+
+<center>
+<img src="/data/2016-12-05/CPE691A_Report-figure0.png" width="680px" />
+</center>
+
+<p>The average accuracy on the test set after 100 epochs is 54.79 %, and
+56.87 % on the training set. For this configuration we use the
+contrastive loss with L2 metric.</p>
+
+<h2 id="soundnet-as-feature-extractor">SoundNet as feature extractor.</h2>
+
+<p>To understand if a more deeper structure will be beneficial for the
+siamese network we combine the feature extracted by the SoundNet
+@Aytar2016 architecture with a dense siamese structure. In this case the
+SoundNet is pretrained with a different dataset for a different
+classification task as in @Aytar2016. We use this offline model to
+extract the features. Although, the network is not finetuned for our
+dataset we believe that the deeper structure can extract feature good
+enough for the verification process. As we can see from the Figure
+[fig:3] the performance outperform the baseline siamese network. The
+average accuracy on the test set is 62.87 % and 65.38 % on the training
+set.</p>
+
+<p>The performance of this</p>
+<center>
+<img src="/data/2016-12-05/SoundNet.png" width="680px" />
+</center>
+
+<center>
+<img src="/data/2016-12-05/SoundNet_dense.png" width="380px" />
+<img src="/data/2016-12-05/SoundNet_siamese_acc.png" width="380px" />
+</center>
+
+<h1 id="siamese-convolutional-lstm">Siamese Convolutional LSTM</h1>
+<p>The proposed architecture combine different structure in siamese
+fashion. We want to take advantage of the Long-Short-Term-Memory unit
+for its extraordinary performance on temporal data. LSTM is ideal for
+time series data like sounds, because it can retain the important
+information of the signal and forget pauses or unimportant data.
+Unfortunately the raw audio signal can be too heavy to be directly
+analyzed by the LSTM. Typical audio signals are sampled at 44100 Hz for
+cd quality, and 16000 Hz for audio. LSTM are trainable with good
+performance when the sequence is less than 300 sample. Unfortunately 300
+samples at 16000 Hz is equivalent to 18 ms, that is quite short for
+phoneme recognition. To create a low dimensional representation we
+process the raw signal with one dimensional convolution, and one
+dimensional MaxPooling. We show the network in Figure [fig:net3], and
+the footprint on memory on Tables [tab:1],[tab:2]. The convolution
+block preceding the LSTM will compress the long signal in a more concise
+and richer feature set. There are two LSTM in cascade working
+differently. The first one is letting the sequence pass to the second
+LSTM but working like an accumulator, and memory storage. The second
+LSTM instead will convert the sequence in a unique vector.</p>
+
+<h2 id="network-configuration">Network configuration</h2>
+
+<p><img src="/data/2016-12-05/Siamese_conv_LSTM2.png" width="680px" /></p>
+
+<p>One Leg Siamese configuration</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Layer type</th>
+      <th>Output shape</th>
+      <th># Param</th>
+      <th>Connected to</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Input</td>
+      <td>(6400,1)</td>
+      <td>-</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>L1 Conv1D 16 x 64</td>
+      <td>(6337,16)</td>
+      <td>1040</td>
+      <td>input</td>
+    </tr>
+    <tr>
+      <td>L1 MaxPool1D 4</td>
+      <td>(1584,16)</td>
+      <td>0</td>
+      <td>L1 Conv1D</td>
+    </tr>
+    <tr>
+      <td>L2 Conv1D 32 x 32</td>
+      <td>(1553,32)</td>
+      <td>16416</td>
+      <td>L1 MaxPool1D</td>
+    </tr>
+    <tr>
+      <td>L2 MaxPool1D 4</td>
+      <td>(338,32)</td>
+      <td>0</td>
+      <td>L2 Conv1D</td>
+    </tr>
+    <tr>
+      <td>L3 Conv1D 64 x 16</td>
+      <td>(373,64)</td>
+      <td>32832</td>
+      <td>L2 MaxPool1D</td>
+    </tr>
+    <tr>
+      <td>L3 MaxPool1D 2</td>
+      <td>(186,64)</td>
+      <td>0</td>
+      <td>L3 Conv1D</td>
+    </tr>
+    <tr>
+      <td>L4 Conv1D 128 x 8</td>
+      <td>(179,128)</td>
+      <td>65664</td>
+      <td>L3 MaxPool1D</td>
+    </tr>
+    <tr>
+      <td>L5 LSTM 128 x 179</td>
+      <td>(179,128)</td>
+      <td>131584</td>
+      <td>L4 Conv1D</td>
+    </tr>
+    <tr>
+      <td>L6 Dropout 0.5</td>
+      <td>(179,128)</td>
+      <td>0</td>
+      <td>L5 LSTM</td>
+    </tr>
+    <tr>
+      <td>L7 LSTM 128 x 1</td>
+      <td>(1,128)</td>
+      <td>131584</td>
+      <td>L6 Dropout</td>
+    </tr>
+    <tr>
+      <td>L8 FC 128 x 1</td>
+      <td>(1, 128)</td>
+      <td>16512</td>
+      <td>L7 LSTM</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Siamese network configuration.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Layer type</th>
+      <th>Output shape</th>
+      <th># Param</th>
+      <th>Connected to</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Input 1</td>
+      <td>(6400,1)</td>
+      <td>0</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Input 2</td>
+      <td>(6400,1)</td>
+      <td>0</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Conv Lstm</td>
+      <td>(1,128)</td>
+      <td>395632</td>
+      <td>input 1, input 2</td>
+    </tr>
+    <tr>
+      <td>L1 metric</td>
+      <td>(1,1)</td>
+      <td>0</td>
+      <td>Conv Lstm 1, Conv Lstm</td>
+    </tr>
+    <tr>
+      <td>FC</td>
+      <td>(1,128)</td>
+      <td>129</td>
+      <td>L1 metric</td>
+    </tr>
+    <tr>
+      <td>Total # params:</td>
+      <td> </td>
+      <td>395761</td>
+      <td> </td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="performance">Performance</h2>
+<p>The network has been trained with the raw signal from the speech
+dataset, as described above. In Figure [fig:5] we show the training
+loss and accuracy on the train and validation data. We use rmsprop as
+algorithm for training the network obtaining the accuracy of $~77 \%$ on
+the validation set, and $98 \%$ on the training set.</p>
+
+<center>
+<img src="/data/2016-12-05/SiameseConv_LSTM_loss.png" width="380px" />
+<img src="/data/2016-12-05/SiameseConv_LSTM_acc.png" width="380px" />
+</center>
+
+<p>We proved a slightly different architecture eliminating the fully
+connected stage after the second LSTM obtaining the average accuracy of
+roughly 84 % in the test set.</p>
+
+
+</div>
+</div>
+</div>
+
+
+  <script src="/js/sp.js"></script>
+  <script src="/vendor/js/jquery.min.js"></script>
+  <script src="/vendor/js/bootstrap.min.js"></script>
+  <script src="/vendor/js/anchor.min.js"></script>
+  <script src="/vendor/js/jquery.toc.js"></script>
+  <script type="text/javascript">
+   try {
+       var snowplowTracker = Snowplow.getTrackerUrl('joule.isr.cs.cmu.edu:8081');
+       snowplowTracker.enableLinkTracking();
+       snowplowTracker.trackPageView();
+   } catch (err) {}
+
+   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+   })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+   ga('create', 'UA-102191838-1', 'auto');
+   ga('send', 'pageview');
+
+   $("#toc").toc({
+       'headings': 'h2,h3'
+   });
+   anchors.add('h2,h3');
+  </script>
+
+</body>
+
+</html>
