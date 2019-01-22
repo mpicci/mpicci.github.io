@@ -9,6 +9,30 @@
       type="application/rss+xml" />
     
     <item>
+      <title>CHOICE Heart Health Screening Event .</title>
+      <description>&lt;script type=&quot;text/x-mathjax-config&quot;&gt;
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [[&#39;$&#39;,&#39;$&#39;], [&#39;\\(&#39;,&#39;\\)&#39;]]}
+});
+&lt;/script&gt;
+
+&lt;script type=&quot;text/javascript&quot; async=&quot;&quot; src=&quot;https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+&lt;/script&gt;
+
+&lt;ul id=&quot;toc&quot;&gt;&lt;/ul&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;TODO&lt;/p&gt;
+</description>
+      <pubDate>
+        Thu, 25 Oct 2018 00:00:00 -0400
+      </pubDate>
+      <link>http://mpicci.github.io/2018/10/25/CHOICE/</link>
+      <guid isPermaLink="true">http://mpicci.github.io/2018/10/25/CHOICE/</guid>
+    </item>
+    
+    <item>
       <title>Voice Verification of similar speech.</title>
       <description>&lt;script type=&quot;text/x-mathjax-config&quot;&gt;
 MathJax.Hub.Config({
