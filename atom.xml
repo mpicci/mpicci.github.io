@@ -1,36 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>marco Piccirilli</title>
+    <title>Marco Piccirilli</title>
     <description></description>
     <link>http://mpicci.github.io</link>
     <atom:link
       href="http://mpicci.github.io/atom.xml" rel="self"
       type="application/rss+xml" />
-    
-    <item>
-      <title>CHOICE Heart Health Screening Event .</title>
-      <description>&lt;script type=&quot;text/x-mathjax-config&quot;&gt;
-MathJax.Hub.Config({
-  tex2jax: {inlineMath: [[&#39;$&#39;,&#39;$&#39;], [&#39;\\(&#39;,&#39;\\)&#39;]]}
-});
-&lt;/script&gt;
-
-&lt;script type=&quot;text/javascript&quot; async=&quot;&quot; src=&quot;https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
-&lt;/script&gt;
-
-&lt;ul id=&quot;toc&quot;&gt;&lt;/ul&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;TODO&lt;/p&gt;
-</description>
-      <pubDate>
-        Thu, 25 Oct 2018 00:00:00 -0400
-      </pubDate>
-      <link>http://mpicci.github.io/2018/10/25/CHOICE/</link>
-      <guid isPermaLink="true">http://mpicci.github.io/2018/10/25/CHOICE/</guid>
-    </item>
     
     <item>
       <title>Voice Verification of similar speech.</title>
@@ -436,6 +412,130 @@ roughly 84 % in the test set.&lt;/p&gt;
       </pubDate>
       <link>http://mpicci.github.io/2016/12/05/CPE691A/</link>
       <guid isPermaLink="true">http://mpicci.github.io/2016/12/05/CPE691A/</guid>
+    </item>
+    
+    <item>
+      <title>A Virtual Dataset of Human Bodies</title>
+      <description>&lt;h1 id=&quot;some-antefacts&quot;&gt;Some antefacts&lt;/h1&gt;
+&lt;p&gt;As everyone working on biometric and computer vision know the availability of data is fundamental for the research. For me, this was entirely new when in 2010 I started working on biometric.
+Coming from a telecommunication environment, where we heavily rely on Montecarlo methods to simulate the channel distortion, the collection of real data was very new to me. 
+Since the interest by the biometric community and mainly by the funding agencies (FBI, DoD), the analysis of the human shape analysis was my main research focus.
+In 2011/2012 I was able to collect some interesting data with the Microsoft Kinect, and a NIR (Near Infrared) camera together with some anthropometric measurements, but the number was around 130 subjects with a prevalence of undergrad students and some adult.
+These kind of collections are kinda expensive and time-consuming, two requisite that often are a big deal in small universities with a small budget, and students that need to finish for lack of funding.
+Then autonomously I came out with an interesting solution able to keep my research going, and avoiding the change in my Ph.D. topic.&lt;/p&gt;
+
+&lt;h1 id=&quot;body-models-and-human-shape-in-computer-vision-and-gaming&quot;&gt;Body models and Human shape in computer vision, and gaming&lt;/h1&gt;
+&lt;p&gt;The human body is quite an interesting object, it’s composed of rigid and not rigid material, it has many degrees of freedom, and the appearance can change with age, gender, race, health status, and lifestyle. An enormous amount of works can be found in the modern and past literature. For instance, the Leonardo da Vinci &lt;a href=&quot;https://en.wikipedia.org/wiki/Vitruvian_Man&quot;&gt;Vitruvian man&lt;/a&gt;, just to cite one. In the last century, human body studies focused more on health assessment, or recognition, applying different statistical, and more physiological based techniques. However, in a data-driven approach, the necessity to collect human data for a statistically significant number of individuals is fundamental for avoiding biased results. The only dataset with a good amount of subjects is the &lt;a href=&quot;https://store.sae.org/caesar/&quot;&gt;CAESAR dataset&lt;/a&gt;. However, is not free, and the individuals in the dataset are only 2400.&lt;/p&gt;
+
+&lt;p&gt;Although, we can leverage the &lt;a href=&quot;https://www.cdc.gov/nchs/nhanes/nhanes_questionnaires.htm&quot;&gt;NHANES&lt;/a&gt; dataset from the &lt;a href=&quot;https://www.cdc.gov/&quot;&gt;CDC&lt;/a&gt; that collects many anthropometric measurements and statistics of the American population for different years.
+My initial thought was: if we can build bodies from these measurements we can replicate many analyses on real subjects with way less money and resources.
+My study focus on works like &lt;a href=&quot;http://ai.stanford.edu/~drago/Projects/scape/scape.html&quot;&gt;SCAPE: Shape Completion and Animation of People&lt;/a&gt;, and &lt;a href=&quot;http://smpl.is.tue.mpg.de/&quot;&gt;skinned body models&lt;/a&gt;. Unfortunately, this was before the &lt;a href=&quot;https://ps.is.tuebingen.mpg.de/research_fields/shape&quot;&gt;enormous work&lt;/a&gt; done by &lt;a href=&quot;https://ps.is.tuebingen.mpg.de/person/black&quot;&gt;Michael Black&lt;/a&gt; in human shape, and human pose. 
+However, Black’ goal were slightly different than mine, and the only relevant work for my research was the base for the launch of a startup, now acquired by Amazon.&lt;/p&gt;
+
+&lt;p&gt;Another surprise came with the discovery of the character modeling for games. This area is definitely closer to the gaming and developer communities than scientific and research-based communities. I was attracted by the open source &lt;a href=&quot;http://www.makehumancommunity.org/&quot;&gt;MakeHuman&lt;/a&gt;. Before that, I was contemplating to use some commercial software, but the cost, the scarcity of funds (in those years I was close to getting unfounded! maybe I’ll write a blog….) made me lean toward the open source option where I could get my hands dirty with the source code.&lt;/p&gt;
+
+&lt;h1 id=&quot;makehuman&quot;&gt;MakeHuman&lt;/h1&gt;
+&lt;p&gt;&lt;a href=&quot;http://www.makehumancommunity.org/&quot;&gt;Makehuman&lt;/a&gt; is an open source library from the prototyping of mesh characters. The contributions of many developers made MakeHuman extremely stable with multiple additions, and plugins.
+Makehuman is unique because is written in python with the use of common python libraries, and just a few dependencies. The structure of the code is completely modular with the possibility to write additional plugins and classes without effort.&lt;/p&gt;
+
+&lt;p&gt;Unfortunately MakeHuman has been design for the generation of a single character at the time, relying on other software for the animation.
+However, I develop an efficient pipeline capable to generate many bodies automatically.&lt;/p&gt;
+
+&lt;h1 id=&quot;body-generator&quot;&gt;Body Generator&lt;/h1&gt;
+&lt;p&gt;The Main differences between my body generator and the other solutions (Shotton et al &lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;, Buys et al.&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;) are two fundamental design goals.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;The distribution of the generated population needs to be close enough to the distribution of real body population.
+Shotton et al.’ generator focus on body poses, thus the goal is to generate mesh poses similar to real poses.
+The generator uses the &lt;a href=&quot;http://mocap.cs.cmu.edu/&quot;&gt;CMU MoCAP&lt;/a&gt; dataset to re-target the mesh to a new pose. However, a limited number of subjects is used.
+&lt;strong&gt;This makes the algorithm biased toward average size subjects&lt;/strong&gt;, as we can deduct from the Kinect v1 specs.
+Our goal instead is to generate a large variety of body shapes when there are changes in anthropometric measurements and body composition.
+We use the anthropometric measurements of real subject from the &lt;a href=&quot;https://www.cdc.gov/nchs/nhanes/nhanes_questionnaires.htm&quot;&gt;NHANES&lt;/a&gt; dataset as target distribution for the new population. We feed these measurements to the generator, represented by the buiding blocks in Figure.
+A final measuring tool compare the anthropometric measurements on the generated population with the original population.
+In a later iteration of the system we included a feedback loop to tune the body measurements closer to the original measurements.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;center&gt;
+&lt;figure&gt;
+&lt;img src=&quot;/data/2012-12-12/VirtualBody_pipeline.png&quot; alt=&quot;Pipeline&quot; width=&quot;700&quot; /&gt; 
+&lt;figcaption&gt;Body Mesh Generator Pipeline.&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;/center&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;We don’t generate multiple body poses, but we have a virtual camera environment able to take multiple views of the body rendering.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+
+&lt;h2 id=&quot;virtualbody-datasets-generated&quot;&gt;VirtualBody: Datasets Generated&lt;/h2&gt;
+&lt;p&gt;We generated two datasets, which, can satisfy most of the real world scenarios.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Virtual NHANES Dataset:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Based on 500 real NHANES measurements, 12500 total shapes.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;25 shapes for family: 5 values of weight, and 5 values of fat percentage.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Each family: same stature, but very fine step variations in body shape.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Virtual Random Dataset:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;19995 shapes.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;The model parameters randomly chosen.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Defined distributions with defined ranges of values.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;The result is a population quite vast in diversities.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;center&gt;
+&lt;img src=&quot;/data/2013-06-06-BSA/grab_2013-11-10_22.21.20.png&quot; alt=&quot;Raytracing.&quot; width=&quot;150&quot; /&gt;
+&lt;img src=&quot;/data/2013-06-06-BSA/grab_2013-11-10_22.10.56.png&quot; alt=&quot;Raytracing.&quot; width=&quot;150&quot; /&gt;
+&lt;!-- &lt;img src=&#39;/data/2013-06-06-BSA/grab_2013-11-10_20.59.19.png&#39; alt=&quot;Raytracing.&quot;  width=&quot;150&quot; height=&quot;200&quot;&gt;  --&gt;
+&lt;img src=&quot;/data/2013-06-06-BSA/grab_2013-11-10_22.01.45.png&quot; alt=&quot;Raytracing.&quot; width=&quot;150&quot; /&gt;
+&lt;img src=&quot;/data/2013-06-06-BSA/grab_2013-11-10_22.04.10.png&quot; alt=&quot;Raytracing.&quot; width=&quot;150&quot; /&gt;
+&lt;/center&gt;
+
+&lt;center&gt;
+&lt;img src=&quot;/data/2013-06-06-BSA/female_18.5BMI.png&quot; alt=&quot;Raytracing.&quot; width=&quot;150&quot; height=&quot;225&quot; /&gt;
+&lt;img src=&quot;/data/2013-06-06-BSA/female_19.95BMI.png&quot; alt=&quot;Raytracing.&quot; width=&quot;150&quot; height=&quot;225&quot; /&gt;
+&lt;!-- &lt;img src=&#39;/data/2013-06-06-BSA/grab_2013-11-10_20.59.19.png&#39; alt=&quot;Raytracing.&quot;  width=&quot;150&quot; height=&quot;200&quot;&gt;  --&gt;
+&lt;img src=&quot;/data/2013-06-06-BSA/female_29.9BMI.png&quot; alt=&quot;Raytracing.&quot; width=&quot;150&quot; height=&quot;225&quot; /&gt;
+&lt;img src=&quot;/data/2013-06-06-BSA/female_38BMI.png&quot; alt=&quot;Raytracing.&quot; width=&quot;150&quot; height=&quot;225&quot; /&gt;
+&lt;/center&gt;
+
+&lt;hr /&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:1&quot;&gt;
+      &lt;p&gt;J. Shotton et al., “Real-time human pose recognition in parts from single depth images,” in In In CVPR, 2011. &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:2&quot;&gt;
+      &lt;p&gt;D. Van Deun, V. Verhaert, K. Buys, B. Haex, and J. Vander Sloten, “Automatic generation of personalized human models based on body measurements,” 2011. &lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+      <pubDate>
+        Wed, 12 Dec 2012 00:00:00 -0500
+      </pubDate>
+      <link>http://mpicci.github.io/2012/12/12/Virtual-bodies/</link>
+      <guid isPermaLink="true">http://mpicci.github.io/2012/12/12/Virtual-bodies/</guid>
     </item>
     
   </channel>
