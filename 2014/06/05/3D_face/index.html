@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>A Mobile Structured Light System for 3D Face Acquisition</title>
+
+  <meta name="author" content="Marco Piccirilli" />
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <link rel="alternate" type="application/rss+xml" href="/atom.xml" />
+
+  <link href="/vendor/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/vendor/css/font-awesome.min.css" rel="stylesheet">
+  <link href="/vendor/css/academicons.min.css" rel="stylesheet">
+  <link href="/vendor/pygments/default.css" rel="stylesheet">
+  <link href="/css/bamos.css" rel="stylesheet">
+  <link href="/css/sharingbuttons.css" rel="stylesheet">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+	<div class="navbar navbar-default navbar-fixed-top">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-10 col-md-offset-1">
+					<div class="navbar-header">
+						  <a href="/" class="navbar-brand">
+                  <div>
+                      <img src="/images/marco.jpg" class="img-circle"></img>
+                      Marco Piccirilli
+                  </div>
+              </a>
+						<button class="navbar-toggle" type="button" data-toggle="collapse"
+                    data-target="#navbar-main">
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+					</div>
+					<div class="navbar-collapse collapse" id="navbar-main">
+						<ul class="nav navbar-nav">
+							<li>
+								<a href="/">About</a>
+							</li>
+							<li>
+								<a href="/blog/">Blog</a>
+							</li>
+						</ul>
+						<ul class="nav navbar-nav navbar-right" style="font-size: 1.5em">
+							<li>
+								<a href="http://github.com/mpicci" target="_blank">
+									<i class="fa fa-lg fa-github"></i></a>
+							</li>
+							<li>
+								<a href="http://twitter.com/piccibiker" target="_blank">
+									<i class="fa fa-lg fa-twitter"></i></a>
+							</li>
+              <li>
+                <a href="https://scholar.google.com/citations?user=o_4Mdc4AAAAJ&hl=en" target="_blank">
+                  <i class="ai ai-google-scholar"></i></a>
+              </li>
+              <li>
+                  <a href="/atom.xml" target="_blank">
+                      <i class="fa fa-rss"></i></a>
+              </li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+  <br/>
+<div class="container">
+<div class="row">
+<div class="col-md-10 col-md-offset-1">
+  <h1>A Mobile Structured Light System for 3D Face Acquisition</h1>
+<em>June  5, 2014</em>
+<br>
+
+<!-- From: http://sharingbuttons.io/ -->
+
+<!-- Sharingbutton Twitter -->
+<a class="resp-sharing-button__link" href="https://twitter.com/intent/tweet/?text=A Mobile Structured Light System for 3D Face Acquisition by @brandondamos &amp;url=http://mpicci.github.io/2014/06/05/3D_face/" target="_blank" aria-label="">
+  <div class="resp-sharing-button resp-sharing-button--twitter resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg version="1.1" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
+        <g>
+            <path d="M23.444,4.834c-0.814,0.363-1.5,0.375-2.228,0.016c0.938-0.562,0.981-0.957,1.32-2.019c-0.878,0.521-1.851,0.9-2.886,1.104 C18.823,3.053,17.642,2.5,16.335,2.5c-2.51,0-4.544,2.036-4.544,4.544c0,0.356,0.04,0.703,0.117,1.036 C8.132,7.891,4.783,6.082,2.542,3.332C2.151,4.003,1.927,4.784,1.927,5.617c0,1.577,0.803,2.967,2.021,3.782 C3.203,9.375,2.503,9.171,1.891,8.831C1.89,8.85,1.89,8.868,1.89,8.888c0,2.202,1.566,4.038,3.646,4.456 c-0.666,0.181-1.368,0.209-2.053,0.079c0.579,1.804,2.257,3.118,4.245,3.155C5.783,18.102,3.372,18.737,1,18.459 C3.012,19.748,5.399,20.5,7.966,20.5c8.358,0,12.928-6.924,12.928-12.929c0-0.198-0.003-0.393-0.012-0.588 C21.769,6.343,22.835,5.746,23.444,4.834z"/>
+        </g>
+    </svg>
+    </div>
+  </div>
+</a>
+
+<!-- Sharingbutton Facebook -->
+<a class="resp-sharing-button__link" href="https://facebook.com/sharer/sharer.php?u=http://mpicci.github.io/2014/06/05/3D_face/" target="_blank" aria-label="">
+  <div class="resp-sharing-button resp-sharing-button--facebook resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg version="1.1" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
+        <g>
+            <path d="M18.768,7.465H14.5V5.56c0-0.896,0.594-1.105,1.012-1.105s2.988,0,2.988,0V0.513L14.171,0.5C10.244,0.5,9.5,3.438,9.5,5.32 v2.145h-3v4h3c0,5.212,0,12,0,12h5c0,0,0-6.85,0-12h3.851L18.768,7.465z"/>
+        </g>
+    </svg>
+    </div>
+  </div>
+</a>
+
+<!-- Sharingbutton Google+ -->
+<a class="resp-sharing-button__link" href="https://plus.google.com/share?url=http://mpicci.github.io/2014/06/05/3D_face/" target="_blank" aria-label="">
+  <div class="resp-sharing-button resp-sharing-button--google resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg version="1.1" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
+        <g>
+            <path d="M11.366,12.928c-0.729-0.516-1.393-1.273-1.404-1.505c0-0.425,0.038-0.627,0.988-1.368 c1.229-0.962,1.906-2.228,1.906-3.564c0-1.212-0.37-2.289-1.001-3.044h0.488c0.102,0,0.2-0.033,0.282-0.091l1.364-0.989 c0.169-0.121,0.24-0.338,0.176-0.536C14.102,1.635,13.918,1.5,13.709,1.5H7.608c-0.667,0-1.345,0.118-2.011,0.347 c-2.225,0.766-3.778,2.66-3.778,4.605c0,2.755,2.134,4.845,4.987,4.91c-0.056,0.22-0.084,0.434-0.084,0.645 c0,0.425,0.108,0.827,0.33,1.216c-0.026,0-0.051,0-0.079,0c-2.72,0-5.175,1.334-6.107,3.32C0.623,17.06,0.5,17.582,0.5,18.098 c0,0.501,0.129,0.984,0.382,1.438c0.585,1.046,1.843,1.861,3.544,2.289c0.877,0.223,1.82,0.335,2.8,0.335 c0.88,0,1.718-0.114,2.494-0.338c2.419-0.702,3.981-2.482,3.981-4.538C13.701,15.312,13.068,14.132,11.366,12.928z M3.66,17.443 c0-1.435,1.823-2.693,3.899-2.693h0.057c0.451,0.005,0.892,0.072,1.309,0.2c0.142,0.098,0.28,0.192,0.412,0.282 c0.962,0.656,1.597,1.088,1.774,1.783c0.041,0.175,0.063,0.35,0.063,0.519c0,1.787-1.333,2.693-3.961,2.693 C5.221,20.225,3.66,19.002,3.66,17.443z M5.551,3.89c0.324-0.371,0.75-0.566,1.227-0.566l0.055,0 c1.349,0.041,2.639,1.543,2.876,3.349c0.133,1.013-0.092,1.964-0.601,2.544C8.782,9.589,8.363,9.783,7.866,9.783H7.865H7.844 c-1.321-0.04-2.639-1.6-2.875-3.405C4.836,5.37,5.049,4.462,5.551,3.89z"/>
+            <polygon points="23.5,9.5 20.5,9.5 20.5,6.5 18.5,6.5 18.5,9.5 15.5,9.5 15.5,11.5 18.5,11.5 18.5,14.5 20.5,14.5 20.5,11.5  23.5,11.5 	"/>
+        </g>
+    </svg>
+    </div>
+  </div>
+</a>
+
+<!-- Sharingbutton LinkedIn -->
+<a class="resp-sharing-button__link" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http://mpicci.github.io/2014/06/05/3D_face/&amp;title=A Mobile Structured Light System for 3D Face Acquisition&amp;summary=A Mobile Structured Light System for 3D Face Acquisition&amp;source=http://mpicci.github.io/2014/06/05/3D_face/" target="_blank" aria-label="">
+  <div class="resp-sharing-button resp-sharing-button--linkedin resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg version="1.1" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
+        <g>
+            <path d="M6.527,21.5h-5v-13h5V21.5z M4.018,6.5H3.988C2.478,6.5,1.5,5.318,1.5,4.019c0-1.329,1.008-2.412,2.547-2.412 c1.541,0,2.488,1.118,2.519,2.447C6.565,5.354,5.588,6.5,4.018,6.5z M15.527,12.5c-1.105,0-2,0.896-2,2v7h-5c0,0,0.059-12,0-13h5 v1.485c0,0,1.548-1.443,3.938-1.443c2.962,0,5.062,2.144,5.062,6.304V21.5h-5v-7C17.527,13.396,16.632,12.5,15.527,12.5z"/>
+        </g>
+    </svg>
+    </div>
+  </div>
+</a>
+
+<!-- Sharingbutton Reddit -->
+<a class="resp-sharing-button__link" href="https://reddit.com/submit/?url=http://mpicci.github.io/2014/06/05/3D_face/" target="_blank" aria-label="">
+  <div class="resp-sharing-button resp-sharing-button--reddit resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg version="1.1" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
+        <path d="M24,11.5c0-1.654-1.346-3-3-3c-0.964,0-1.863,0.476-2.422,1.241c-1.639-1.006-3.747-1.64-6.064-1.723 c0.064-1.11,0.4-3.049,1.508-3.686c0.72-0.414,1.733-0.249,3.01,0.478C17.189,6.317,18.452,7.5,20,7.5c1.654,0,3-1.346,3-3 s-1.346-3-3-3c-1.382,0-2.536,0.944-2.883,2.217C15.688,3,14.479,2.915,13.521,3.466c-1.642,0.945-1.951,3.477-2.008,4.551 C9.186,8.096,7.067,8.731,5.422,9.741C4.863,8.976,3.964,8.5,3,8.5c-1.654,0-3,1.346-3,3c0,1.319,0.836,2.443,2.047,2.844 C2.019,14.56,2,14.778,2,15c0,3.86,4.486,7,10,7s10-3.14,10-7c0-0.222-0.019-0.441-0.048-0.658C23.148,13.938,24,12.795,24,11.5z  M2.286,13.366C1.522,13.077,1,12.351,1,11.5c0-1.103,0.897-2,2-2c0.635,0,1.217,0.318,1.59,0.816 C3.488,11.17,2.683,12.211,2.286,13.366z M6,13.5c0-1.103,0.897-2,2-2s2,0.897,2,2c0,1.103-0.897,2-2,2S6,14.603,6,13.5z  M15.787,18.314c-1.063,0.612-2.407,0.949-3.787,0.949c-1.387,0-2.737-0.34-3.803-0.958c-0.239-0.139-0.321-0.444-0.182-0.683 c0.139-0.24,0.444-0.322,0.683-0.182c1.828,1.059,4.758,1.062,6.59,0.008c0.239-0.138,0.545-0.055,0.683,0.184 C16.108,17.871,16.026,18.177,15.787,18.314z M16,15.5c-1.103,0-2-0.897-2-2c0-1.103,0.897-2,2-2s2,0.897,2,2 C18,14.603,17.103,15.5,16,15.5z M21.713,13.365c-0.397-1.155-1.201-2.195-2.303-3.048C19.784,9.818,20.366,9.5,21,9.5 c1.103,0,2,0.897,2,2C23,12.335,22.468,13.073,21.713,13.365z"/>
+    </svg>
+    </div>
+  </div>
+</a>
+
+<!-- Sharingbutton E-Mail -->
+<a class="resp-sharing-button__link" href="mailto:?subject=A Mobile Structured Light System for 3D Face Acquisition&amp;body=http://mpicci.github.io/2014/06/05/3D_face/" target="_self" aria-label="">
+  <div class="resp-sharing-button resp-sharing-button--email resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg version="1.1" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
+        <path d="M22,4H2C0.897,4,0,4.897,0,6v12c0,1.103,0.897,2,2,2h20c1.103,0,2-0.897,2-2V6C24,4.897,23.103,4,22,4z M7.248,14.434 l-3.5,2C3.67,16.479,3.584,16.5,3.5,16.5c-0.174,0-0.342-0.09-0.435-0.252c-0.137-0.239-0.054-0.545,0.186-0.682l3.5-2 c0.24-0.137,0.545-0.054,0.682,0.186C7.571,13.992,7.488,14.297,7.248,14.434z M12,14.5c-0.094,0-0.189-0.026-0.271-0.08l-8.5-5.5 C2.997,8.77,2.93,8.46,3.081,8.229c0.15-0.23,0.459-0.298,0.691-0.147L12,13.405l8.229-5.324c0.232-0.15,0.542-0.084,0.691,0.147 c0.15,0.232,0.083,0.542-0.148,0.691l-8.5,5.5C12.189,14.474,12.095,14.5,12,14.5z M20.934,16.248 C20.842,16.41,20.673,16.5,20.5,16.5c-0.084,0-0.169-0.021-0.248-0.065l-3.5-2c-0.24-0.137-0.323-0.442-0.186-0.682 s0.443-0.322,0.682-0.186l3.5,2C20.988,15.703,21.071,16.009,20.934,16.248z"/>
+    </svg>
+    </div>
+  </div>
+</a>
+
+
+<hr style="margin-top: 0;">
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+
+<script type="text/javascript" async="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML">
+</script>
+
+<ul id="toc"></ul>
+
+<h1 id="a-mobile-structured-light-system-for-3d-face-acquisition--writing-in-progress">A Mobile Structured Light System for 3D Face Acquisition ( Writing in Progress!!!)</h1>
+
+<h2 id="about-the-project">About the project</h2>
+
+<p>In late 2012 I was asked to design a portable system able to scan human faces for border control.
+At that time The Microsoft Kinect was dominating the field of the 3D acquisition devices, and in a very short time they sold more than 2 million devices.
+Unfortunately Microsoft Kinect v1/v2 is not that friendly for very mobile applications, and more portable solutions, like project Tango, or sensor io were still in a sperimental stage.
+After 5 years the scene is totally different, with <a href="https://all3dp.com/1/best-3d-scanner-diy-handheld-app-software/">dozen of devices available</a>.
+We were able to design an active stereo system composed of a mid-range smartphone, and a pico-projector, driven by an Android App that we wrote for the acquisition and 3D reconstruction.
+In Spring 2013 The <a href="https://citer.clarkson.edu/">CiTer</a> approved our project with a grant, and we deliver the outcomes in Spring 2014 at the CiTer Spring meeting at SUNY BUffalo (NY).
+In that occasion we made a short demo about the device.
+In 2016 our work was published on the <a href="http://ieeexplore.ieee.org/document/7361976/">IEEE Sensor Journal</a>.</p>
+
+<center>
+<figure>
+<img src="/images/publications/Marco_cropped.png" width="300px" />
+<figcaption>My 3D face.</figcaption>
+</figure>
+</center>
+
+<hr />
+
+<h1 id="hardware-design">Hardware Design</h1>
+<p>Since the device was targeted for biometric, in particular border control, portability, battery powered, speed, and accuracy were the driven factors.
+For these reasons we excluded techniques based on multi views stereo that were giving good results on static objects <a href="https://cvg.ethz.ch/mobile/LiveMetric3DReconstructionICCV2013.pdf">ICCV13</a>. 
+We decided to use active scanning techniques, based on the illumination of the subject with structured light. Pretty well known are the work of <a href="http://mesh.brown.edu/">Taubin</a> at Brown University, and <a href="https://engineering.purdue.edu/ME/People/ptProfile?resource_id=117610">Song Zhang</a> at Purdue.
+However, if the smartphones camera were good enough, the main problem was to find a compact and portable light source.
+Fortunately, a new kind of devices were starting to be available at reasonable price, and battery powered: the <a href="http://www.projectorreviews.com/projector-categories/pico-pocket-projectors/">nano, pico, and micro projectors</a>.
+For our complete setup we decided to use an Android smartphone: a mid-range device <a href="https://en.wikipedia.org/wiki/Nexus_4">Nexus 4</a> with Android <a href="https://en.wikipedia.org/wiki/Android_Jelly_Bean">JellyBean</a>. Till Android Lollipop almost all the smartphone were capable to output the video signal from the charging port. After, with the advent of google chromecast they decided to exclude the video output, and now only a few devices can be connected through HDMI port.
+However, right now there are smartphones and tablets with <a href="http://www.laptopmag.com/articles/lenovo-yoga-tab3-pro">included pico projectors</a>.
+Our prototype in figure was composed of the Nexus 4, fixed to the micro-projector by a common car holder, and connected via HDMI cable. Since the light from the micro projector can be too bright for the eye we decided to use an additional tele lens to avoid to be too close to the subject.
+<img src="/images/100_4116_scaled.JPG" /></p>
+
+<h1 id="active-stereo-reconstruction">Active Stereo reconstruction</h1>
+<p>The pico projector and the smartphone constitute an <a href="https://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=2&amp;cad=rja&amp;uact=8&amp;ved=0ahUKEwie1fHCqv_TAhXJYyYKHd7xBNQQFgg0MAE&amp;url=http%3A%2F%2Fcvgl.stanford.edu%2Fteaching%2Fcs231a_winter1415%2Flecture%2Flecture8_volumetric_stereo_notes.pdf&amp;usg=AFQjCNEQpGouAd7Szixwk-Io_kU6m4BwJg&amp;sig2=auoQR3C1h_33Zb6rGFNNgg">active stereo</a> system, where, the pico projector substitute one of the camera in the stereo configuration.
+This configuration permits to use the basic stereo formulation, but it’s more robust since less affected by the external light, serious problem for the stereo matching reconstruction. As will see later, using fringe pattern with active stereo configuration, speed up the scan, then the 3D reconstruction.
+This solution, used by the majority of high precision 3D scanners present some downsides. The principal is the calibration procedure of the system.</p>
+
+<h2 id="calibration">Calibration</h2>
+<p>The <a href="https://boofcv.org/index.php?title=Tutorial_Camera_Calibration">calibration</a> of a camera lens is a very important step in 3D reconstruction, since other than the estimated ratio between the real and represented object, the lens introduce different distortions, making the reconstruction not accurate. With the calibration procedure we measure all the intrinsic and extrinsic quantities of the camera system, correcting distortions, and increasing the accuracy of the measures.
+Traditional monocular optics can be easily calibrated using simple <a href="http://www.vision.caltech.edu/bouguetj/calib_doc/">algorithms</a> that leverage the the knowledge of a given patterns and the relative representation on the focal plane in term of pixels. Common patterns are chessboards with black and white squares, thus easy to detect corners automatically.
+For a multi-views system, other than the intrinsic parameters of each lens, wwe need to measure the position, and orientation, respect to a reference, of the cameras.
+In the passive stereo, this is possible repeating the calibration procedure for each camera, then with the <strong>stereo registration</strong> of the two acquired images is possible to compute the extrinsic, and parallax parameters.
+In active stereo setup this procedure is quite hard, since the projector cannot " see " the pattern! The trick is to calibrate the camera first, then project the pattern with the projector and use the camera as a proxy. We refer to <a href="http://ieeexplore.ieee.org/document/6375029/">Moreno et. al.</a> for a more extensive explanation and other references.</p>
+
+<h1 id="three-phase-structured-light">Three Phase Structured Light</h1>
+<p>When I started to study structured light for 3D active acquisition devices I was literally astonished to find so many parallel, and the same math  I was using a few years before in electrical communication. The same principle used in radar, sonar, and communication, is to transmit information <code class="highlighter-rouge">shape</code> from the source: <code class="highlighter-rouge">object to scan</code> to the receiver, the <code class="highlighter-rouge">camera</code>.<br />
+However, the object per se do not emit any information. What the human eye, or a camera see is the appearance, something that is difficult to describe.
+Varphilosopher, neuroscientists, and also computer scientist have often discussed about it, and it’s still an hot topic.</p>
+
+<p>To retrieve the shape <em>information</em> we have to <em>sense</em> the object. The information to acquire is in the form of x,y,z coordinate. Illuminating the subject with a light source, and receiving the distorted light with the camera is an analogous to radar, and sonar systems.
+The difference is the frequency of the electromagnetic radiation used. Hundred, or thousand of MegaHertz in the case of the radar, 100 millions of Mhz for the visible light.<br />
+With different operating frequencies, although the same basic formulation, different noise and nuisances are playing a major role in the system performance.</p>
+
+<p>There have been many structured light works using different patterns. A primitive, but simple and thoughtful is the work of <a href="http://www.vision.caltech.edu/bouguetj/ICCV98/">Bouguet and Perona</a>. They use a simple desk lamp, and by the object shadow is possible to reconstruct the shape.<br />
+However, the speed of the system is restricted by the camera frame rate, and the stick speed to create the shadow.
+An extension to this principle is the use of more complex <em>structured</em> patterns. The literature is vast, and is quite hard to keep track of all the little contributions.</p>
+
+<p>The three main typologies are: 
+* binary coded light striping 
+* gray/color coded light striping
+* phase Shifting.</p>
+
+<p>The main difference regard the way the shape information is encoded.
+A more thorough explanation can be found <a href="http://www.sci.utah.edu/~gerig/CS6320-S2012/Materials/CS6320-CV-S2012-StructuredLight.pdf">here</a>.</p>
+<center>
+<img src="/images/publications/Smartphone_Sensor/Unwrapping/Binary_coding.jpg" width="500px" />
+</center>
+
+<p>The first two techniques code the amplitude of the pattern light with discrete values. A set of patterns are successively projected onto the measuring
+surface, codeword for a given pixel is formed by a sequence of patterns.
+The main problem with this techniques is that the number of patterns is limited by the codeword length. Gray code can be used for robustness: adjacent stripes must only differ in 1 bit. However these techniques, used in old scanners, make the system slow, and especially are not resilient to external illumination, because the information is coded in the white or black level of the light.</p>
+
+<p>A more interesting technique, introduced by <a href="http://www.ifp.uni-stuttgart.de/publications/2001/Videometrics01-Guehring-4309-24.pdf">Guehring et al</a>
+is the phase-shift PS method. The PS method projects a sequence of periodic intensity patterns, each of which is offset by a fraction of its period from the previous one, so that the entire period is covered. As a result, one obtains a so-called relative phase map, which is also of a periodic nature: values readily available from the relative <em>wrapped</em> phase map are said to be wrapped in the range modulo <script type="math/tex">2 \pi</script>.<br />
+The PS method typically assumes a projection of periodic sinusoidal patterns several times, where a periodic sine pattern is shifted between projections. A periodic pattern is actually shifted N   times by an amount of <script type="math/tex">\varphi_i</script>, where shifts are equally distributed to cover the entire period:</p>
+
+<script type="math/tex; mode=display">\varphi_i = \frac{2 \pi}{N} \cdot i \qquad i= 0,1,\dots,N-1</script>
+
+<p>For a camera image pixel, the detected gray-level intensity, <script type="math/tex">g(x,y)</script> at <script type="math/tex">(x,y)</script> position, obtained as a result of a projected periodic pattern in context and for a shift i can be modeled as:</p>
+
+<script type="math/tex; mode=display">g(x,y) = a(x,y) + b(x,y) \cdot \cos(2 \pi f_0 x + \varphi_i(x,y))</script>
+
+<p>where <script type="math/tex">a(x,y)</script> is the background intensity, <script type="math/tex">b(x,y)</script> is the amplitude modulation of fringes, <script type="math/tex">f_0</script> is the spatial carrier frequency, <script type="math/tex">\varphi_i(x,y)</script>is the phase modulation of fringes.</p>
+
+<h2 id="in-electrical-communications">In Electrical Communications</h2>
+<p>The above equation is very common in electrical communications! It’s the basic formulation used in <a href="https://en.wikibooks.org/wiki/Communication_Systems/What_is_Modulation%3F">modulation theory</a>.
+In particular, the above form is called phase modulation, or angle modulation. This type of modulation is very interesting, since encode the information on phase variations.
+Common distortions of the electrical signal on means like coaxial cables, fiber optics, or ether are principally associated with the amplitude, encoding the information on the phase makes the system more resilient to noise. 
+Moreover, since <script type="math/tex">\varphi_i</script> is discrete, the phase variations are discrete too. In electrical communications this modulation is called <a href="https://en.wikipedia.org/wiki/Phase-shift_keying">PSK: phase shift keying</a>, used commonly to transmit digital signals.</p>
+
+<p>My experience</p>
+
+<p>As <a href="https://en.wikipedia.org/wiki/Amateur_radio">Ham Radio</a> operator I used many many times the PSK for packet transmission. In early 2000 was able to meet and experimenting high speed packet transmission in Northern Italy and Slovenia where Matiaz Vidmar developed a BPSK radio at 2400 MHz.</p>
+
+<h2 id="recover-the-relative-phase">Recover the relative phase</h2>
+<p>Phase-shifting methods are extensively employed in optical metrology, especially with the development of digital computers and digital display technologies. A well known algorithm use just <a href="https://www.osapublishing.org/ao/abstract.cfm?uri=ao-45-21-5086">three phase shift</a>. 
+Three-step phase-shifting algorithm have the advantage of fast measurement because they require the minimum number of fringe images to reconstruct one 3D shape. Each shift has a variation of <script type="math/tex">2\pi/3</script>. The correspondent intensities of fringe images are:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align*}
+g_1(x,y) &= a(x,y) + b(x,y) \cdot \cos(2 \pi f_0 x - 2\pi/3)\\
+g_2(x,y) &= a(x,y) + b(x,y) \cdot \cos(2 \pi f_0 x)\\
+g_3(x,y) &= a(x,y) + b(x,y) \cdot \cos(2 \pi f_0 x + 2\pi/3)\\
+\end{align*} %]]></script>
+
+<p>To recover the realtive phase there is a closed form solution:</p>
+
+<script type="math/tex; mode=display">\varphi_R(x,y) = \arctan(\sqrt{3} \frac{g_1(x,y) - g_3(x,y)}{2g_2(x,y)-g_1(x,y)-g_3(x,y)})</script>
+
+<h2 id="unwrapping">Unwrapping</h2>
+<p>Due to the periodic nature of a given periodic pattern, <script type="math/tex">\varphi_R(x,y)</script> value by itself is not a unique representative that we can use to solve the correspondence problem between the image pixels of two or more cameras, i.e., between a single camera and the source of projection, e.g. a common video projector.</p>
+
+<!--------------------------------------->
+<!-- <img src='/images/phase_mod.png'> -->
+<!--------------------------------------->
+
+<p>The phase <script type="math/tex">\varphi_R(x,y)</script> is called modulo <script type="math/tex">2\pi</script> at each pixel. If the fringe patterns contain multiple fringes, as often is the case, <a href="http://www.wiley.com/WileyCDA/WileyTitle/productCd-0471249351.html">phase unwrapping</a> is necessary to remove the sawtooth-like discontinuities and obtain a continuous phase map.
+Some initial works on fringes used only one fringe containing the whole image. This technique lead to poor results due to the low resolution of the phase, or better said the degree/pixel ratio. Using more fringes we are able to have higher resolution, but with more fringes we have an increase of the computational complexity of the unwrapping algorithm.<br />
+A pattern period can be defined either directly by the number of requested periods that pattern must have, or by the length of a single period, bearing in mind the total available pattern width in the context.</p>
+
+<p><img src="/images/publications/Smartphone_Sensor/Unwrapping/Unwrap.jpg" /></p>
+
+<p>Figure shows the appearance of two sine patterns defined by integer length periods <script type="math/tex">\lambda_1</script> and <script type="math/tex">\lambda_2</script>: each pattern column has an intensity according to the sine value of its position on the abscissa axis, and the propagation of the absolute phase axis along the width of the pattern. A pair of relative phases <script type="math/tex">(\varphi_{R,1}</script>, <script type="math/tex">\varphi_{R,2})</script> is indicated for the arbitrary absolute phase value <script type="math/tex">\varphi_{ABS}</script> and the following equations hold:</p>
+
+<script type="math/tex; mode=display">\varphi_{ABS} = k_1 \lambda_1 + \varphi_{R,1} = k_2 \lambda_2 +\varphi_{R,2}</script>
+
+<p>However, this method assume multiple patterns, and multiple acquisitions with different frequencies. Unfortunately, this could be a important downside
+due to the low frame rate of the mobile device.</p>
+
+<p>In this project we considered a different <strong>unwrapping</strong> technique, also known as <strong>spatial unwrapping</strong>, instead of the one cited above, that is denominated <strong>frequency unwrapping</strong>.
+The main difference between the two techniques is the acquisition time. <strong>Spatial unwrapping</strong> use (x,y) relation on the picture frame to reconstruct the absolute phase, instead <strong>frequency unwrapping</strong> use additional fringe to construct the relation between the picture frame and the absolute phase.
+The last techniques need to acquire additional frames that will cost in terms of acquisition time.
+In our implementation, using this type of technique is not feasible due to the <em>mobile</em> nature of the device. Making every acquisition blurry due to the hand and subjects movements. In fact they need to stay still for the whole acquisition.
+Doing some math: at 30 fps, and using 3 phases, the acquisition will last <script type="math/tex">1/30 * 3 = 100</script> ms. However, increasing the number of frames to 4 <script type="math/tex">1/30 * 4 = 133</script> ms. These times are unfortunately high for a handheld device. Unfortunately we discover, as we’ll explain in major details in the next sections, that a smartphone is not the ideal device to grab and record frames.</p>
+
+<blockquote>
+  <p>As a side note: the smartphone used for this project is the Nexus 4! I think more recent devices will definitely obtain better performances.</p>
+</blockquote>
+
+<h1 id="fast-quality-guided-flood-fill-phase-unwrapping-algorithm">Fast quality-guided flood-fill phase unwrapping algorithm</h1>
+<p>We used the <a href="http://ro.uow.edu.au/cgi/viewcontent.cgi?article=10855&amp;context=infopapers">Fast quality-guided flood-fill phase unwrapping algorithm for three-dimensional fringe pattern profilometry</a> by Chen et. al.
+This algorithm present a good trade-off between speed, computatioanl complexity and results. As we’ll see later, not always perform well on human faces, and for this reason we modify it in a way we can correct the faulty reconstructions.</p>
+
+<h2 id="description-by-the-authors">Description by the authors:</h2>
+<p>The proposed method consists of three steps. First, after the acquisition of the wrapped phase <script type="math/tex">\varphi_R</script>, a quality map is generated according to the phase variance adjacent pixels on the wrapped phase map. According to the quality map, the phase map is divided into several parts which are categorised as either rapid phase changing areas or smooth phase changing areas. Then quality-guided flood-fill phase unwrapping algorithm is applied to rapid phase changing areas and nonguided path-following algorithm is used in the smooth phase changing area. The proposed approach is much faster than the conventional non-guided path-following algorithm, and it is more robust than the non-guided path-following algorithm. Experiments are carried out to verify the performance.</p>
+
+<p>The following figures are obtained by our system projecting the patterns on a white projector screen.
+In the first row there are the three shifted patterns.</p>
+
+<p><img src="/images/publications/Smartphone_Sensor/Unwrapping/1.png" width="300" /> 
+<img src="/images/publications/Smartphone_Sensor/Unwrapping/2.png" width="300" />
+<img src="/images/publications/Smartphone_Sensor/Unwrapping/3.png" width="300" /></p>
+
+<p><img src="/images/publications/Smartphone_Sensor/Unwrapping/phasecrop.png" width="300" />
+<img src="/images/publications/Smartphone_Sensor/Unwrapping/offsetcrop.png" width="300" /> 
+<img src="/images/publications/Smartphone_Sensor/Unwrapping/unwrappedcrop.png" width="300" /></p>
+
+<p>In the second row: the reconstructed wrapped phase <script type="math/tex">\varphi_R</script> on the left, an offset used by the unwrapping algorithm in center, and the final absolute phase <script type="math/tex">\varphi_{ABS}</script> on the right.</p>
+
+<!------------------------------------------------------------------------>
+<!-- This *is*{:.underline} some `code`{:#id}{:.class}.                 -->
+<!-- A [link](test.html){:rel='something'} and some **tools**{:.tools}. -->
+<!--      {:                                                              -->
+<!-- <u>some text</u>                                                   -->
+<!------------------------------------------------------------------------>
+
+<!--------------------------------------------------------------------------------->
+<!-- $$                                                                          -->
+<!-- \begin{align*}                                                              -->
+<!--   & \varphi(x,y) = \varphi \left(\sum_{i=1}^n x_ie_i, \sum_{j=1}^n y_je_j \right) -->
+<!--   = \sum_{i=1}^n \sum_{j=1}^n x_i y_j \varphi(e_i, e_j) = \\                   -->
+<!--   & (x_1, \ldots, x_n) \left( \begin{array}{ccc}                            -->
+<!--       \varphi(e_1, e_1) & \cdots & \varphi(e_1, e_n) \\                           -->
+<!--       \vdots & \ddots & \vdots \\                                           -->
+<!--       \varphi(e_n, e_1) & \cdots & \varphi(e_n, e_n)                              -->
+<!--     \end{array} \right)                                                     -->
+<!--   \left( \begin{array}{c}                                                   -->
+<!--       y_1 \\                                                                -->
+<!--       \vdots \\                                                             -->
+<!--       y_n                                                                   -->
+<!--     \end{array} \right)                                                     -->
+<!-- \end{align*}                                                                -->
+<!-- $$                                                                          -->
+<!--------------------------------------------------------------------------------->
+
+<h1 id="android-sdk-ndk-openframework">Android SDK, NDK, OpenFramework</h1>
+<p>We used an unusual composition of tools and libraries to develop the software. <a href="https://developer.android.com/studio/index.html">Android SDK</a> with the eclipse plugin was indispensable to create the apps, although painful and buggy at the time.
+Then we decided to use <a href="http://openframeworks.cc/">OpenFramework</a>, an open source library in C++ for creative coding. We decided to use this combination because OpenFramework contained a version for Android with some function useful for our development. Developed in C++, to create Android Apps we used the <a href="https://developer.android.com/ndk/index.html">Native Development Toolkit</a>.In fact, the time we had to code everything and make a little in house acquisition was limited to one semester!!
+OpenFramework contains simple GUI, and portions of other useful libraries, like <a href="http://opencv.org/">OpenCV</a>, <a href="https://www.khronos.org/opengles/">OpenGL ES</a>, <a href="http://pointclouds.org/">Point of Cloud</a> library, and other useful utilities.</p>
+
+<h2 id="the-apps">The Apps</h2>
+<p>We developed initially three Android apps: calibration app, acquisition app, and reconstruction app. Later, we decided to include in a unique app the first two. Respective programs has been developed on PC too for correct some initials major bugs, and test the algorithms with a high resolution camera.</p>
+
+<blockquote>
+  <p>Despite a general shift towards remote cloud processing for a range of mobile applications, we argue that it is intrinsically desirable that heavy sensing tasks be carried out locally on-device, due to the usually tight latency requirements, and the prohibitively large data transmission requirement as dictated by the high Therefore we also demonstrate the feasibility of implementing and deploying the applications on mobile devices by showing low overhead for tasks like acquisition and 3D reconstruction, and more importantly visualization.</p>
+</blockquote>
+
+<p>The main app, and also the most critical on a mobile deviceis the <em>acquisition</em> app.
+In fact, The acquisition is a temporized process, where the procedure is to simultaneously create and display the pattern, shoot with the camera, and
+store on memory the image.</p>
+
+<center>
+<figure>
+<img src="/images/publications/Smartphone_Sensor/Screenshot_2014-05-01-18-14-13.png" width="300" />
+<img src="/images/publications/Smartphone_Sensor/Screenshot_2014-05-02-15-36-23_H.png" width="320" />
+<img src="/images/publications/Smartphone_Sensor/Screenshot_2014-05-02-18-24-06.png" width="300" />
+<figcaption>Left: acquisition app. Center: reconstruction and visualization app. Right: Android face detector in use.</figcaption>
+</figure>
+</center>
+
+<h2 id="the-hardware">The Hardware</h2>
+<p>The hardware is composed of a Nexus 4 smartphone running Android 4.4, a pico-projector, and usb to HDMI dongle.
+The pico-projector is battery powered and it can last one hour at full power. It’s able to acquire object at the distance of 2-3 meters on low light conditions, and 1-1.5 meters in normal light conditions..</p>
+<center>
+<figure>
+<img src="/images/publications/Smartphone_Sensor/100_4116.JPG" width="300" />
+<img src="/images/publications/Smartphone_Sensor/100_4117.JPG" width="300" />
+<img src="/images/publications/Smartphone_Sensor/100_4118.JPG" width="535" />
+<figcaption>Smarthphone based 3D scanner.</figcaption>
+</figure>
+</center>
+
+<hr />
+
+
+</div>
+</div>
+</div>
+
+
+  <script src="/js/sp.js"></script>
+  <script src="/vendor/js/jquery.min.js"></script>
+  <script src="/vendor/js/bootstrap.min.js"></script>
+  <script src="/vendor/js/anchor.min.js"></script>
+  <script src="/vendor/js/jquery.toc.js"></script>
+  <script type="text/javascript">
+   try {
+       var snowplowTracker = Snowplow.getTrackerUrl('joule.isr.cs.cmu.edu:8081');
+       snowplowTracker.enableLinkTracking();
+       snowplowTracker.trackPageView();
+   } catch (err) {}
+
+   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+   })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+   ga('create', 'UA-102191838-1', 'auto');
+   ga('send', 'pageview');
+
+   $("#toc").toc({
+       'headings': 'h2,h3'
+   });
+   anchors.add('h2,h3');
+  </script>
+
+</body>
+
+</html>

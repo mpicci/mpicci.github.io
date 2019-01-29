@@ -415,6 +415,359 @@ roughly 84 % in the test set.&lt;/p&gt;
     </item>
     
     <item>
+      <title>A Mobile Structured Light System for 3D Face Acquisition</title>
+      <description>&lt;script type=&quot;text/x-mathjax-config&quot;&gt;
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [[&#39;$&#39;,&#39;$&#39;], [&#39;\\(&#39;,&#39;\\)&#39;]]}
+});
+&lt;/script&gt;
+
+&lt;script type=&quot;text/javascript&quot; async=&quot;&quot; src=&quot;https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+&lt;/script&gt;
+
+&lt;ul id=&quot;toc&quot;&gt;&lt;/ul&gt;
+
+&lt;h1 id=&quot;a-mobile-structured-light-system-for-3d-face-acquisition--writing-in-progress&quot;&gt;A Mobile Structured Light System for 3D Face Acquisition ( Writing in Progress!!!)&lt;/h1&gt;
+
+&lt;h2 id=&quot;about-the-project&quot;&gt;About the project&lt;/h2&gt;
+
+&lt;p&gt;In late 2012 I was asked to design a portable system able to scan human faces for border control.
+At that time The Microsoft Kinect was dominating the field of the 3D acquisition devices, and in a very short time they sold more than 2 million devices.
+Unfortunately Microsoft Kinect v1/v2 is not that friendly for very mobile applications, and more portable solutions, like project Tango, or sensor io were still in a sperimental stage.
+After 5 years the scene is totally different, with &lt;a href=&quot;https://all3dp.com/1/best-3d-scanner-diy-handheld-app-software/&quot;&gt;dozen of devices available&lt;/a&gt;.
+We were able to design an active stereo system composed of a mid-range smartphone, and a pico-projector, driven by an Android App that we wrote for the acquisition and 3D reconstruction.
+In Spring 2013 The &lt;a href=&quot;https://citer.clarkson.edu/&quot;&gt;CiTer&lt;/a&gt; approved our project with a grant, and we deliver the outcomes in Spring 2014 at the CiTer Spring meeting at SUNY BUffalo (NY).
+In that occasion we made a short demo about the device.
+In 2016 our work was published on the &lt;a href=&quot;http://ieeexplore.ieee.org/document/7361976/&quot;&gt;IEEE Sensor Journal&lt;/a&gt;.&lt;/p&gt;
+
+&lt;center&gt;
+&lt;figure&gt;
+&lt;img src=&quot;/images/publications/Marco_cropped.png&quot; width=&quot;300px&quot; /&gt;
+&lt;figcaption&gt;My 3D face.&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;/center&gt;
+
+&lt;hr /&gt;
+
+&lt;h1 id=&quot;hardware-design&quot;&gt;Hardware Design&lt;/h1&gt;
+&lt;p&gt;Since the device was targeted for biometric, in particular border control, portability, battery powered, speed, and accuracy were the driven factors.
+For these reasons we excluded techniques based on multi views stereo that were giving good results on static objects &lt;a href=&quot;https://cvg.ethz.ch/mobile/LiveMetric3DReconstructionICCV2013.pdf&quot;&gt;ICCV13&lt;/a&gt;. 
+We decided to use active scanning techniques, based on the illumination of the subject with structured light. Pretty well known are the work of &lt;a href=&quot;http://mesh.brown.edu/&quot;&gt;Taubin&lt;/a&gt; at Brown University, and &lt;a href=&quot;https://engineering.purdue.edu/ME/People/ptProfile?resource_id=117610&quot;&gt;Song Zhang&lt;/a&gt; at Purdue.
+However, if the smartphones camera were good enough, the main problem was to find a compact and portable light source.
+Fortunately, a new kind of devices were starting to be available at reasonable price, and battery powered: the &lt;a href=&quot;http://www.projectorreviews.com/projector-categories/pico-pocket-projectors/&quot;&gt;nano, pico, and micro projectors&lt;/a&gt;.
+For our complete setup we decided to use an Android smartphone: a mid-range device &lt;a href=&quot;https://en.wikipedia.org/wiki/Nexus_4&quot;&gt;Nexus 4&lt;/a&gt; with Android &lt;a href=&quot;https://en.wikipedia.org/wiki/Android_Jelly_Bean&quot;&gt;JellyBean&lt;/a&gt;. Till Android Lollipop almost all the smartphone were capable to output the video signal from the charging port. After, with the advent of google chromecast they decided to exclude the video output, and now only a few devices can be connected through HDMI port.
+However, right now there are smartphones and tablets with &lt;a href=&quot;http://www.laptopmag.com/articles/lenovo-yoga-tab3-pro&quot;&gt;included pico projectors&lt;/a&gt;.
+Our prototype in figure was composed of the Nexus 4, fixed to the micro-projector by a common car holder, and connected via HDMI cable. Since the light from the micro projector can be too bright for the eye we decided to use an additional tele lens to avoid to be too close to the subject.
+&lt;img src=&quot;/images/100_4116_scaled.JPG&quot; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;active-stereo-reconstruction&quot;&gt;Active Stereo reconstruction&lt;/h1&gt;
+&lt;p&gt;The pico projector and the smartphone constitute an &lt;a href=&quot;https://www.google.com/url?sa=t&amp;amp;rct=j&amp;amp;q=&amp;amp;esrc=s&amp;amp;source=web&amp;amp;cd=2&amp;amp;cad=rja&amp;amp;uact=8&amp;amp;ved=0ahUKEwie1fHCqv_TAhXJYyYKHd7xBNQQFgg0MAE&amp;amp;url=http%3A%2F%2Fcvgl.stanford.edu%2Fteaching%2Fcs231a_winter1415%2Flecture%2Flecture8_volumetric_stereo_notes.pdf&amp;amp;usg=AFQjCNEQpGouAd7Szixwk-Io_kU6m4BwJg&amp;amp;sig2=auoQR3C1h_33Zb6rGFNNgg&quot;&gt;active stereo&lt;/a&gt; system, where, the pico projector substitute one of the camera in the stereo configuration.
+This configuration permits to use the basic stereo formulation, but it’s more robust since less affected by the external light, serious problem for the stereo matching reconstruction. As will see later, using fringe pattern with active stereo configuration, speed up the scan, then the 3D reconstruction.
+This solution, used by the majority of high precision 3D scanners present some downsides. The principal is the calibration procedure of the system.&lt;/p&gt;
+
+&lt;h2 id=&quot;calibration&quot;&gt;Calibration&lt;/h2&gt;
+&lt;p&gt;The &lt;a href=&quot;https://boofcv.org/index.php?title=Tutorial_Camera_Calibration&quot;&gt;calibration&lt;/a&gt; of a camera lens is a very important step in 3D reconstruction, since other than the estimated ratio between the real and represented object, the lens introduce different distortions, making the reconstruction not accurate. With the calibration procedure we measure all the intrinsic and extrinsic quantities of the camera system, correcting distortions, and increasing the accuracy of the measures.
+Traditional monocular optics can be easily calibrated using simple &lt;a href=&quot;http://www.vision.caltech.edu/bouguetj/calib_doc/&quot;&gt;algorithms&lt;/a&gt; that leverage the the knowledge of a given patterns and the relative representation on the focal plane in term of pixels. Common patterns are chessboards with black and white squares, thus easy to detect corners automatically.
+For a multi-views system, other than the intrinsic parameters of each lens, wwe need to measure the position, and orientation, respect to a reference, of the cameras.
+In the passive stereo, this is possible repeating the calibration procedure for each camera, then with the &lt;strong&gt;stereo registration&lt;/strong&gt; of the two acquired images is possible to compute the extrinsic, and parallax parameters.
+In active stereo setup this procedure is quite hard, since the projector cannot &quot; see &quot; the pattern! The trick is to calibrate the camera first, then project the pattern with the projector and use the camera as a proxy. We refer to &lt;a href=&quot;http://ieeexplore.ieee.org/document/6375029/&quot;&gt;Moreno et. al.&lt;/a&gt; for a more extensive explanation and other references.&lt;/p&gt;
+
+&lt;h1 id=&quot;three-phase-structured-light&quot;&gt;Three Phase Structured Light&lt;/h1&gt;
+&lt;p&gt;When I started to study structured light for 3D active acquisition devices I was literally astonished to find so many parallel, and the same math  I was using a few years before in electrical communication. The same principle used in radar, sonar, and communication, is to transmit information &lt;code class=&quot;highlighter-rouge&quot;&gt;shape&lt;/code&gt; from the source: &lt;code class=&quot;highlighter-rouge&quot;&gt;object to scan&lt;/code&gt; to the receiver, the &lt;code class=&quot;highlighter-rouge&quot;&gt;camera&lt;/code&gt;.&lt;br /&gt;
+However, the object per se do not emit any information. What the human eye, or a camera see is the appearance, something that is difficult to describe.
+Varphilosopher, neuroscientists, and also computer scientist have often discussed about it, and it’s still an hot topic.&lt;/p&gt;
+
+&lt;p&gt;To retrieve the shape &lt;em&gt;information&lt;/em&gt; we have to &lt;em&gt;sense&lt;/em&gt; the object. The information to acquire is in the form of x,y,z coordinate. Illuminating the subject with a light source, and receiving the distorted light with the camera is an analogous to radar, and sonar systems.
+The difference is the frequency of the electromagnetic radiation used. Hundred, or thousand of MegaHertz in the case of the radar, 100 millions of Mhz for the visible light.&lt;br /&gt;
+With different operating frequencies, although the same basic formulation, different noise and nuisances are playing a major role in the system performance.&lt;/p&gt;
+
+&lt;p&gt;There have been many structured light works using different patterns. A primitive, but simple and thoughtful is the work of &lt;a href=&quot;http://www.vision.caltech.edu/bouguetj/ICCV98/&quot;&gt;Bouguet and Perona&lt;/a&gt;. They use a simple desk lamp, and by the object shadow is possible to reconstruct the shape.&lt;br /&gt;
+However, the speed of the system is restricted by the camera frame rate, and the stick speed to create the shadow.
+An extension to this principle is the use of more complex &lt;em&gt;structured&lt;/em&gt; patterns. The literature is vast, and is quite hard to keep track of all the little contributions.&lt;/p&gt;
+
+&lt;p&gt;The three main typologies are: 
+* binary coded light striping 
+* gray/color coded light striping
+* phase Shifting.&lt;/p&gt;
+
+&lt;p&gt;The main difference regard the way the shape information is encoded.
+A more thorough explanation can be found &lt;a href=&quot;http://www.sci.utah.edu/~gerig/CS6320-S2012/Materials/CS6320-CV-S2012-StructuredLight.pdf&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;center&gt;
+&lt;img src=&quot;/images/publications/Smartphone_Sensor/Unwrapping/Binary_coding.jpg&quot; width=&quot;500px&quot; /&gt;
+&lt;/center&gt;
+
+&lt;p&gt;The first two techniques code the amplitude of the pattern light with discrete values. A set of patterns are successively projected onto the measuring
+surface, codeword for a given pixel is formed by a sequence of patterns.
+The main problem with this techniques is that the number of patterns is limited by the codeword length. Gray code can be used for robustness: adjacent stripes must only differ in 1 bit. However these techniques, used in old scanners, make the system slow, and especially are not resilient to external illumination, because the information is coded in the white or black level of the light.&lt;/p&gt;
+
+&lt;p&gt;A more interesting technique, introduced by &lt;a href=&quot;http://www.ifp.uni-stuttgart.de/publications/2001/Videometrics01-Guehring-4309-24.pdf&quot;&gt;Guehring et al&lt;/a&gt;
+is the phase-shift PS method. The PS method projects a sequence of periodic intensity patterns, each of which is offset by a fraction of its period from the previous one, so that the entire period is covered. As a result, one obtains a so-called relative phase map, which is also of a periodic nature: values readily available from the relative &lt;em&gt;wrapped&lt;/em&gt; phase map are said to be wrapped in the range modulo &lt;script type=&quot;math/tex&quot;&gt;2 \pi&lt;/script&gt;.&lt;br /&gt;
+The PS method typically assumes a projection of periodic sinusoidal patterns several times, where a periodic sine pattern is shifted between projections. A periodic pattern is actually shifted N   times by an amount of &lt;script type=&quot;math/tex&quot;&gt;\varphi_i&lt;/script&gt;, where shifts are equally distributed to cover the entire period:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\varphi_i = \frac{2 \pi}{N} \cdot i \qquad i= 0,1,\dots,N-1&lt;/script&gt;
+
+&lt;p&gt;For a camera image pixel, the detected gray-level intensity, &lt;script type=&quot;math/tex&quot;&gt;g(x,y)&lt;/script&gt; at &lt;script type=&quot;math/tex&quot;&gt;(x,y)&lt;/script&gt; position, obtained as a result of a projected periodic pattern in context and for a shift i can be modeled as:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;g(x,y) = a(x,y) + b(x,y) \cdot \cos(2 \pi f_0 x + \varphi_i(x,y))&lt;/script&gt;
+
+&lt;p&gt;where &lt;script type=&quot;math/tex&quot;&gt;a(x,y)&lt;/script&gt; is the background intensity, &lt;script type=&quot;math/tex&quot;&gt;b(x,y)&lt;/script&gt; is the amplitude modulation of fringes, &lt;script type=&quot;math/tex&quot;&gt;f_0&lt;/script&gt; is the spatial carrier frequency, &lt;script type=&quot;math/tex&quot;&gt;\varphi_i(x,y)&lt;/script&gt;is the phase modulation of fringes.&lt;/p&gt;
+
+&lt;h2 id=&quot;in-electrical-communications&quot;&gt;In Electrical Communications&lt;/h2&gt;
+&lt;p&gt;The above equation is very common in electrical communications! It’s the basic formulation used in &lt;a href=&quot;https://en.wikibooks.org/wiki/Communication_Systems/What_is_Modulation%3F&quot;&gt;modulation theory&lt;/a&gt;.
+In particular, the above form is called phase modulation, or angle modulation. This type of modulation is very interesting, since encode the information on phase variations.
+Common distortions of the electrical signal on means like coaxial cables, fiber optics, or ether are principally associated with the amplitude, encoding the information on the phase makes the system more resilient to noise. 
+Moreover, since &lt;script type=&quot;math/tex&quot;&gt;\varphi_i&lt;/script&gt; is discrete, the phase variations are discrete too. In electrical communications this modulation is called &lt;a href=&quot;https://en.wikipedia.org/wiki/Phase-shift_keying&quot;&gt;PSK: phase shift keying&lt;/a&gt;, used commonly to transmit digital signals.&lt;/p&gt;
+
+&lt;p&gt;My experience&lt;/p&gt;
+
+&lt;p&gt;As &lt;a href=&quot;https://en.wikipedia.org/wiki/Amateur_radio&quot;&gt;Ham Radio&lt;/a&gt; operator I used many many times the PSK for packet transmission. In early 2000 was able to meet and experimenting high speed packet transmission in Northern Italy and Slovenia where Matiaz Vidmar developed a BPSK radio at 2400 MHz.&lt;/p&gt;
+
+&lt;h2 id=&quot;recover-the-relative-phase&quot;&gt;Recover the relative phase&lt;/h2&gt;
+&lt;p&gt;Phase-shifting methods are extensively employed in optical metrology, especially with the development of digital computers and digital display technologies. A well known algorithm use just &lt;a href=&quot;https://www.osapublishing.org/ao/abstract.cfm?uri=ao-45-21-5086&quot;&gt;three phase shift&lt;/a&gt;. 
+Three-step phase-shifting algorithm have the advantage of fast measurement because they require the minimum number of fringe images to reconstruct one 3D shape. Each shift has a variation of &lt;script type=&quot;math/tex&quot;&gt;2\pi/3&lt;/script&gt;. The correspondent intensities of fringe images are:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{align*}
+g_1(x,y) &amp;= a(x,y) + b(x,y) \cdot \cos(2 \pi f_0 x - 2\pi/3)\\
+g_2(x,y) &amp;= a(x,y) + b(x,y) \cdot \cos(2 \pi f_0 x)\\
+g_3(x,y) &amp;= a(x,y) + b(x,y) \cdot \cos(2 \pi f_0 x + 2\pi/3)\\
+\end{align*} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;To recover the realtive phase there is a closed form solution:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\varphi_R(x,y) = \arctan(\sqrt{3} \frac{g_1(x,y) - g_3(x,y)}{2g_2(x,y)-g_1(x,y)-g_3(x,y)})&lt;/script&gt;
+
+&lt;h2 id=&quot;unwrapping&quot;&gt;Unwrapping&lt;/h2&gt;
+&lt;p&gt;Due to the periodic nature of a given periodic pattern, &lt;script type=&quot;math/tex&quot;&gt;\varphi_R(x,y)&lt;/script&gt; value by itself is not a unique representative that we can use to solve the correspondence problem between the image pixels of two or more cameras, i.e., between a single camera and the source of projection, e.g. a common video projector.&lt;/p&gt;
+
+&lt;!---------------------------------------&gt;
+&lt;!-- &lt;img src=&#39;/images/phase_mod.png&#39;&gt; --&gt;
+&lt;!---------------------------------------&gt;
+
+&lt;p&gt;The phase &lt;script type=&quot;math/tex&quot;&gt;\varphi_R(x,y)&lt;/script&gt; is called modulo &lt;script type=&quot;math/tex&quot;&gt;2\pi&lt;/script&gt; at each pixel. If the fringe patterns contain multiple fringes, as often is the case, &lt;a href=&quot;http://www.wiley.com/WileyCDA/WileyTitle/productCd-0471249351.html&quot;&gt;phase unwrapping&lt;/a&gt; is necessary to remove the sawtooth-like discontinuities and obtain a continuous phase map.
+Some initial works on fringes used only one fringe containing the whole image. This technique lead to poor results due to the low resolution of the phase, or better said the degree/pixel ratio. Using more fringes we are able to have higher resolution, but with more fringes we have an increase of the computational complexity of the unwrapping algorithm.&lt;br /&gt;
+A pattern period can be defined either directly by the number of requested periods that pattern must have, or by the length of a single period, bearing in mind the total available pattern width in the context.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/publications/Smartphone_Sensor/Unwrapping/Unwrap.jpg&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Figure shows the appearance of two sine patterns defined by integer length periods &lt;script type=&quot;math/tex&quot;&gt;\lambda_1&lt;/script&gt; and &lt;script type=&quot;math/tex&quot;&gt;\lambda_2&lt;/script&gt;: each pattern column has an intensity according to the sine value of its position on the abscissa axis, and the propagation of the absolute phase axis along the width of the pattern. A pair of relative phases &lt;script type=&quot;math/tex&quot;&gt;(\varphi_{R,1}&lt;/script&gt;, &lt;script type=&quot;math/tex&quot;&gt;\varphi_{R,2})&lt;/script&gt; is indicated for the arbitrary absolute phase value &lt;script type=&quot;math/tex&quot;&gt;\varphi_{ABS}&lt;/script&gt; and the following equations hold:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\varphi_{ABS} = k_1 \lambda_1 + \varphi_{R,1} = k_2 \lambda_2 +\varphi_{R,2}&lt;/script&gt;
+
+&lt;p&gt;However, this method assume multiple patterns, and multiple acquisitions with different frequencies. Unfortunately, this could be a important downside
+due to the low frame rate of the mobile device.&lt;/p&gt;
+
+&lt;p&gt;In this project we considered a different &lt;strong&gt;unwrapping&lt;/strong&gt; technique, also known as &lt;strong&gt;spatial unwrapping&lt;/strong&gt;, instead of the one cited above, that is denominated &lt;strong&gt;frequency unwrapping&lt;/strong&gt;.
+The main difference between the two techniques is the acquisition time. &lt;strong&gt;Spatial unwrapping&lt;/strong&gt; use (x,y) relation on the picture frame to reconstruct the absolute phase, instead &lt;strong&gt;frequency unwrapping&lt;/strong&gt; use additional fringe to construct the relation between the picture frame and the absolute phase.
+The last techniques need to acquire additional frames that will cost in terms of acquisition time.
+In our implementation, using this type of technique is not feasible due to the &lt;em&gt;mobile&lt;/em&gt; nature of the device. Making every acquisition blurry due to the hand and subjects movements. In fact they need to stay still for the whole acquisition.
+Doing some math: at 30 fps, and using 3 phases, the acquisition will last &lt;script type=&quot;math/tex&quot;&gt;1/30 * 3 = 100&lt;/script&gt; ms. However, increasing the number of frames to 4 &lt;script type=&quot;math/tex&quot;&gt;1/30 * 4 = 133&lt;/script&gt; ms. These times are unfortunately high for a handheld device. Unfortunately we discover, as we’ll explain in major details in the next sections, that a smartphone is not the ideal device to grab and record frames.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;As a side note: the smartphone used for this project is the Nexus 4! I think more recent devices will definitely obtain better performances.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h1 id=&quot;fast-quality-guided-flood-fill-phase-unwrapping-algorithm&quot;&gt;Fast quality-guided flood-fill phase unwrapping algorithm&lt;/h1&gt;
+&lt;p&gt;We used the &lt;a href=&quot;http://ro.uow.edu.au/cgi/viewcontent.cgi?article=10855&amp;amp;context=infopapers&quot;&gt;Fast quality-guided flood-fill phase unwrapping algorithm for three-dimensional fringe pattern profilometry&lt;/a&gt; by Chen et. al.
+This algorithm present a good trade-off between speed, computatioanl complexity and results. As we’ll see later, not always perform well on human faces, and for this reason we modify it in a way we can correct the faulty reconstructions.&lt;/p&gt;
+
+&lt;h2 id=&quot;description-by-the-authors&quot;&gt;Description by the authors:&lt;/h2&gt;
+&lt;p&gt;The proposed method consists of three steps. First, after the acquisition of the wrapped phase &lt;script type=&quot;math/tex&quot;&gt;\varphi_R&lt;/script&gt;, a quality map is generated according to the phase variance adjacent pixels on the wrapped phase map. According to the quality map, the phase map is divided into several parts which are categorised as either rapid phase changing areas or smooth phase changing areas. Then quality-guided flood-fill phase unwrapping algorithm is applied to rapid phase changing areas and nonguided path-following algorithm is used in the smooth phase changing area. The proposed approach is much faster than the conventional non-guided path-following algorithm, and it is more robust than the non-guided path-following algorithm. Experiments are carried out to verify the performance.&lt;/p&gt;
+
+&lt;p&gt;The following figures are obtained by our system projecting the patterns on a white projector screen.
+In the first row there are the three shifted patterns.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/publications/Smartphone_Sensor/Unwrapping/1.png&quot; width=&quot;300&quot; /&gt; 
+&lt;img src=&quot;/images/publications/Smartphone_Sensor/Unwrapping/2.png&quot; width=&quot;300&quot; /&gt;
+&lt;img src=&quot;/images/publications/Smartphone_Sensor/Unwrapping/3.png&quot; width=&quot;300&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/publications/Smartphone_Sensor/Unwrapping/phasecrop.png&quot; width=&quot;300&quot; /&gt;
+&lt;img src=&quot;/images/publications/Smartphone_Sensor/Unwrapping/offsetcrop.png&quot; width=&quot;300&quot; /&gt; 
+&lt;img src=&quot;/images/publications/Smartphone_Sensor/Unwrapping/unwrappedcrop.png&quot; width=&quot;300&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;In the second row: the reconstructed wrapped phase &lt;script type=&quot;math/tex&quot;&gt;\varphi_R&lt;/script&gt; on the left, an offset used by the unwrapping algorithm in center, and the final absolute phase &lt;script type=&quot;math/tex&quot;&gt;\varphi_{ABS}&lt;/script&gt; on the right.&lt;/p&gt;
+
+&lt;!------------------------------------------------------------------------&gt;
+&lt;!-- This *is*{:.underline} some `code`{:#id}{:.class}.                 --&gt;
+&lt;!-- A [link](test.html){:rel=&#39;something&#39;} and some **tools**{:.tools}. --&gt;
+&lt;!--      {:                                                              --&gt;
+&lt;!-- &lt;u&gt;some text&lt;/u&gt;                                                   --&gt;
+&lt;!------------------------------------------------------------------------&gt;
+
+&lt;!---------------------------------------------------------------------------------&gt;
+&lt;!-- $$                                                                          --&gt;
+&lt;!-- \begin{align*}                                                              --&gt;
+&lt;!--   &amp; \varphi(x,y) = \varphi \left(\sum_{i=1}^n x_ie_i, \sum_{j=1}^n y_je_j \right) --&gt;
+&lt;!--   = \sum_{i=1}^n \sum_{j=1}^n x_i y_j \varphi(e_i, e_j) = \\                   --&gt;
+&lt;!--   &amp; (x_1, \ldots, x_n) \left( \begin{array}{ccc}                            --&gt;
+&lt;!--       \varphi(e_1, e_1) &amp; \cdots &amp; \varphi(e_1, e_n) \\                           --&gt;
+&lt;!--       \vdots &amp; \ddots &amp; \vdots \\                                           --&gt;
+&lt;!--       \varphi(e_n, e_1) &amp; \cdots &amp; \varphi(e_n, e_n)                              --&gt;
+&lt;!--     \end{array} \right)                                                     --&gt;
+&lt;!--   \left( \begin{array}{c}                                                   --&gt;
+&lt;!--       y_1 \\                                                                --&gt;
+&lt;!--       \vdots \\                                                             --&gt;
+&lt;!--       y_n                                                                   --&gt;
+&lt;!--     \end{array} \right)                                                     --&gt;
+&lt;!-- \end{align*}                                                                --&gt;
+&lt;!-- $$                                                                          --&gt;
+&lt;!---------------------------------------------------------------------------------&gt;
+
+&lt;h1 id=&quot;android-sdk-ndk-openframework&quot;&gt;Android SDK, NDK, OpenFramework&lt;/h1&gt;
+&lt;p&gt;We used an unusual composition of tools and libraries to develop the software. &lt;a href=&quot;https://developer.android.com/studio/index.html&quot;&gt;Android SDK&lt;/a&gt; with the eclipse plugin was indispensable to create the apps, although painful and buggy at the time.
+Then we decided to use &lt;a href=&quot;http://openframeworks.cc/&quot;&gt;OpenFramework&lt;/a&gt;, an open source library in C++ for creative coding. We decided to use this combination because OpenFramework contained a version for Android with some function useful for our development. Developed in C++, to create Android Apps we used the &lt;a href=&quot;https://developer.android.com/ndk/index.html&quot;&gt;Native Development Toolkit&lt;/a&gt;.In fact, the time we had to code everything and make a little in house acquisition was limited to one semester!!
+OpenFramework contains simple GUI, and portions of other useful libraries, like &lt;a href=&quot;http://opencv.org/&quot;&gt;OpenCV&lt;/a&gt;, &lt;a href=&quot;https://www.khronos.org/opengles/&quot;&gt;OpenGL ES&lt;/a&gt;, &lt;a href=&quot;http://pointclouds.org/&quot;&gt;Point of Cloud&lt;/a&gt; library, and other useful utilities.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-apps&quot;&gt;The Apps&lt;/h2&gt;
+&lt;p&gt;We developed initially three Android apps: calibration app, acquisition app, and reconstruction app. Later, we decided to include in a unique app the first two. Respective programs has been developed on PC too for correct some initials major bugs, and test the algorithms with a high resolution camera.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Despite a general shift towards remote cloud processing for a range of mobile applications, we argue that it is intrinsically desirable that heavy sensing tasks be carried out locally on-device, due to the usually tight latency requirements, and the prohibitively large data transmission requirement as dictated by the high Therefore we also demonstrate the feasibility of implementing and deploying the applications on mobile devices by showing low overhead for tasks like acquisition and 3D reconstruction, and more importantly visualization.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;The main app, and also the most critical on a mobile deviceis the &lt;em&gt;acquisition&lt;/em&gt; app.
+In fact, The acquisition is a temporized process, where the procedure is to simultaneously create and display the pattern, shoot with the camera, and
+store on memory the image.&lt;/p&gt;
+
+&lt;center&gt;
+&lt;figure&gt;
+&lt;img src=&quot;/images/publications/Smartphone_Sensor/Screenshot_2014-05-01-18-14-13.png&quot; width=&quot;300&quot; /&gt;
+&lt;img src=&quot;/images/publications/Smartphone_Sensor/Screenshot_2014-05-02-15-36-23_H.png&quot; width=&quot;320&quot; /&gt;
+&lt;img src=&quot;/images/publications/Smartphone_Sensor/Screenshot_2014-05-02-18-24-06.png&quot; width=&quot;300&quot; /&gt;
+&lt;figcaption&gt;Left: acquisition app. Center: reconstruction and visualization app. Right: Android face detector in use.&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;/center&gt;
+
+&lt;h2 id=&quot;the-hardware&quot;&gt;The Hardware&lt;/h2&gt;
+&lt;p&gt;The hardware is composed of a Nexus 4 smartphone running Android 4.4, a pico-projector, and usb to HDMI dongle.
+The pico-projector is battery powered and it can last one hour at full power. It’s able to acquire object at the distance of 2-3 meters on low light conditions, and 1-1.5 meters in normal light conditions..&lt;/p&gt;
+&lt;center&gt;
+&lt;figure&gt;
+&lt;img src=&quot;/images/publications/Smartphone_Sensor/100_4116.JPG&quot; width=&quot;300&quot; /&gt;
+&lt;img src=&quot;/images/publications/Smartphone_Sensor/100_4117.JPG&quot; width=&quot;300&quot; /&gt;
+&lt;img src=&quot;/images/publications/Smartphone_Sensor/100_4118.JPG&quot; width=&quot;535&quot; /&gt;
+&lt;figcaption&gt;Smarthphone based 3D scanner.&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;/center&gt;
+
+&lt;hr /&gt;
+</description>
+      <pubDate>
+        Thu, 05 Jun 2014 00:00:00 -0400
+      </pubDate>
+      <link>http://mpicci.github.io/2014/06/05/3D_face/</link>
+      <guid isPermaLink="true">http://mpicci.github.io/2014/06/05/3D_face/</guid>
+    </item>
+    
+    <item>
+      <title>A framework to study the Human Body Surface Area</title>
+      <description>&lt;script type=&quot;text/x-mathjax-config&quot;&gt;
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [[&#39;$&#39;,&#39;$&#39;], [&#39;\\(&#39;,&#39;\\)&#39;]]}
+});
+&lt;/script&gt;
+
+&lt;script type=&quot;text/javascript&quot; async=&quot;&quot; src=&quot;https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+&lt;/script&gt;
+
+&lt;ul id=&quot;toc&quot;&gt;&lt;/ul&gt;
+
+&lt;h1 id=&quot;abstract&quot;&gt;Abstract&lt;/h1&gt;
+
+&lt;p&gt;We present a virtual reality (VR) framework for the analysis of whole
+human body surface area. Usual methods for determining the whole body
+surface area (WBSA) are based on well known formulae, characterized by
+large errors when the subject is obese, or belongs to certain
+subgroups. For these situations, we believe that a computer vision
+approach can overcome these problems and provide a better estimate of
+this important body indicator.&lt;/p&gt;
+
+&lt;p&gt;Unfortunately, using machine learning techniques to design a computer
+vision system able to provide a new body indicator that goes beyond
+the use of only body weight and height, entails a long and expensive
+data acquisition process. A more viable solution is to use a dataset
+composed of virtual subjects. Generating a virtual dataset allowed us
+to build a population with different characteristics (obese,
+underweight, age, gender). However, synthetic data might differ from a
+real scenario, typical of the physician’s clinic. For this reason we
+develop a new virtual environment to facilitate the analysis of human
+subjects in 3D. This framework can simulate the acquisition process of
+a real camera, making it easy to analyze and to create training data
+for machine learning algorithms. With this virtual environment, we can
+easily simulate the real setup of a clinic, where a subject is
+standing in front of a camera, or may assume a different pose with
+respect to the camera.&lt;/p&gt;
+
+&lt;p&gt;We use this newly designated environment to analyze the whole body
+surface area (WBSA). In particular, we show that we can obtain
+accurate WBSA estimations with just one view, virtually enabling the
+possibility to use inexpensive depth sensors (e.g., the Kinect) for
+large scale quantification of the WBSA from a single view 3D map.&lt;/p&gt;
+
+&lt;h1 id=&quot;introduction&quot;&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;Accurate determination of the whole body surface area (WBSA) is one topic that has been actively studied over the last century. From the initial estimate of Du Bois and Du Bois&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; in $1916$ to recent work&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;, and despite many critiques&lt;sup id=&quot;fnref:3&quot;&gt;&lt;a href=&quot;#fn:3&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;, the WBSA has attracted a lot of attention, driven primarily by the large variety of its applications.&lt;/p&gt;
+
+&lt;h1 id=&quot;wbsa-measurements-and-estimation&quot;&gt;WBSA: Measurements and estimation&lt;/h1&gt;
+&lt;p&gt;The common methods for WBSA calculation are through some well known formulae. The most widely used formula for WBSA calculation is the one devised by Du Bois and Du Bois in $1916$. Moulds of plaster of Paris for 9 subjects were cut into small pieces in an attempt to measure the two-dimensional surface area of the skin. Each individual’s body/skin surface area was then calculated and Du Bois and Du Bois determined that WBSA was related to stature and weight by the formula: $0.007184 \times W^{0.425} \times H^{0.725}$, where W is the weight (in kg) and H is the stature (in cm) of the subject. Notably, this formula was derived from $9$ subjects only, one of whom was a child.
+Since the bodies of the subjects studied in the middle of the First World War are unlikely to be similar to the patients of the modern society, Mosteller&lt;sup id=&quot;fnref:4&quot;&gt;&lt;a href=&quot;#fn:4&quot; class=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt; proposed a new calculation of WBSA in $1987$. This formula is a modification of the WBSA equation by Gehan and George&lt;sup id=&quot;fnref:5&quot;&gt;&lt;a href=&quot;#fn:5&quot; class=&quot;footnote&quot;&gt;5&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+
+&lt;p&gt;Today there are many studies related to the verification of meaningful differences between WBSA measurements taken using a whole body three-dimensional (3D) scanner (criterion measure) and the estimates derived from each WBSA equation identified from systematic review&lt;sup id=&quot;fnref:6&quot;&gt;&lt;a href=&quot;#fn:6&quot; class=&quot;footnote&quot;&gt;6&lt;/a&gt;&lt;/sup&gt;. The 3D scanners used are often cumbersome and slow, and have to be operated by specially trained personnel.&lt;/p&gt;
+
+&lt;h2 id=&quot;measurements-using-body-scanner&quot;&gt;Measurements using body scanner&lt;/h2&gt;
+&lt;p&gt;An alternative to the use of WBSA formulae is whole-body 3D scanning. There are three major issues with the 3D laser scanners: cost, speed, and physical space requirement. Classic 3D laser scanners use a laser beam to illuminate the surface. At the same time a receptor registers the beam distortion on the surface and computes the respective depth. The beam needs to cover all the space of the surface and it takes time to do so. This requires that the object be almost immobile and small movements can cause errors in the reconstruction. Modern laser scanners are fast enough to avoid this distortion, but still require a large room to contain the device.&lt;/p&gt;
+
+&lt;p&gt;The result of the scanning operation is usually ``raw’’ data in the form of a 3D $(x,y,z)$ point cloud. To reconstruct the mesh surface from the raw data, a surface reconstruction algorithm has to be applied. Without the face information it is not possible to relate the vertices to a face and thus compute the area of the surface. 
+The 3D data, after surface reconstruction, is completed by other information than $(x,y,z)$ points. The reconstruction with triangles, for instance, fits many little triangles every $3$ points of the cloud. Then the calculation of the whole body surface area is reduced to a simple summation of the areas of all the triangles composing the mesh.
+This solution, unfortunately, is not as reliable and efficient as it looks. Key challenges in 3D body scanning include occluded areas, body parts registration, device complexity and portability. Yu et al.&lt;sup id=&quot;fnref:7&quot;&gt;&lt;a href=&quot;#fn:7&quot; class=&quot;footnote&quot;&gt;7&lt;/a&gt;&lt;/sup&gt; provide more detailed analysis on some of these problems.&lt;/p&gt;
+
+&lt;h2 id=&quot;our-solution-virtual-subjects-and-virtual-environment&quot;&gt;Our solution: Virtual subjects and Virtual environment&lt;/h2&gt;
+&lt;p&gt;Given these multiple problems, we decided to approach the WBSA calculation with an unusual methodology for this area.
+Our goal can be summarized with the following idea. &lt;strong&gt;Using a simple Kinect device we want to obtain the accurate WBSA calculation of any given person regardless of differences in gender, race, obesity, with the subject simply facing the device without the supervision of a trained personnel.&lt;/strong&gt;
+We want to use just one device that can acquire only one view of the subject, simplifying the setting required for an accurate estimation, and making possible the accurate estimation in a home setting.
+The device will acquire just the visible portion of the body, and a subsequent prediction stage will reconstruct the overall WBSA.&lt;/p&gt;
+
+&lt;p&gt;Unfortunately, the described system needs training data to be reliable, representing a large number of body shapes with significant diversity.
+Since the collection of this large amount of data is expensive, time consuming, and very difficult, we decided to virtualize our training set, proposing a framework based on virtual subjects, computer vision and computer graphics techniques for the analysis and measurement of WBSA.&lt;/p&gt;
+
+&lt;center&gt;
+&lt;img src=&quot;/data/2013-06-06-BSA/snapshot00.png&quot; alt=&quot;Raytracing.&quot; width=&quot;700&quot; /&gt; 
+&lt;/center&gt;
+
+&lt;hr /&gt;
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:1&quot;&gt;
+      &lt;p&gt;D. Du Bois, E. F. Du Bois, D. Du Bois, and E. F. Du Bois, “A formula to estimate the approximate surface area if height and weight be known,” Nutrition, vol. 5, no. 5, pp. 303–311, 1989. &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:2&quot;&gt;
+      &lt;p&gt;N. Jander et al., “Indexing aortic valve area by body surface area increases the prevalence of severe aortic stenosis,” Heart, vol. 100, no. 1, pp. 28–33, Jan. 2014. &lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:3&quot;&gt;
+      &lt;p&gt;M. Sawyer and M. J. Ratain, “Body surface area as a determinant of pharmacokinetics and drug dosing,” Invest New Drugs, vol. 19, no. 2, pp. 171–177, May 2001. &lt;a href=&quot;#fnref:3&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:4&quot;&gt;
+      &lt;p&gt;R. D. Mosteller, “Simplified Calculation of Body-Surface Area,” N. Engl. J. Med., vol. 317, no. 17, pp. 1098–1098, Oct. 1987. &lt;a href=&quot;#fnref:4&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:5&quot;&gt;
+      &lt;p&gt;E. A. Gehan and S. L. George, “Estimation of human body surface area from height and weight.,” Cancer Chemother. reports, vol. 54, no. 4, pp. 225–35, Aug. 1970. &lt;a href=&quot;#fnref:5&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:6&quot;&gt;
+      &lt;p&gt;N. Daniell, T. Olds, and G. Tomkinson, “Technical note: Criterion validity of whole body surface area equations: a comparison using 3D laser scanning.,” Am. J. Phys. Anthropol., vol. 148, no. 1, pp. 148–55, May 2012. &lt;a href=&quot;#fnref:6&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:7&quot;&gt;
+      &lt;p&gt;C. Y. Yu, C. H. Lin, and Y. H. Yang, “Human body surface area database and estimation formula,” Burns, vol. 36, no. 5, pp. 616–629, 2010. &lt;a href=&quot;#fnref:7&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+      <pubDate>
+        Thu, 06 Jun 2013 00:00:00 -0400
+      </pubDate>
+      <link>http://mpicci.github.io/2013/06/06/BSA/</link>
+      <guid isPermaLink="true">http://mpicci.github.io/2013/06/06/BSA/</guid>
+    </item>
+    
+    <item>
       <title>A Virtual Dataset of Human Bodies</title>
       <description>&lt;h1 id=&quot;some-antefacts&quot;&gt;Some antefacts&lt;/h1&gt;
 &lt;p&gt;As everyone working on biometric and computer vision know the availability of data is fundamental for the research. For me, this was entirely new when in 2010 I started working on biometric.
