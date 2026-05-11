@@ -1,0 +1,30 @@
+name: Marco Piccirilli
+url: https://mpicci.github.io
+baseurl: ""
+repository: mpicci/mpicci.github.io
+
+author:
+  name: Marco Piccirilli
+  github: mpicci
+  twitter: piccibiker
+  googlescholar: "https://scholar.google.com/citations?user=o_4Mdc4AAAAJ&hl=en"
+  linkedin: "https://www.linkedin.com/in/marco-piccirilli-b406b719/"
+
+markdown: kramdown
+highlighter: rouge
+permalink: /:year/:month/:day/:title/
+
+kramdown:
+  input: GFM
+  math_engine: mathjax
+
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle
+  - README.md
